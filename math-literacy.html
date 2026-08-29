@@ -1020,22 +1020,22 @@
   </header>
   <div class="weeksRow" role="navigation" aria-label="Level B weeks">
     <button type="button" class="weekBtn" data-week="1" aria-label="Open Week 1">
-      <span class="weekArt"><img src="assets/b7/week_1_thumb.png?v=1" alt=""></span>
+      <span class="weekArt"><img src="assets/b7/girl_idle.png?v=1" alt=""></span>
       <span class="weekNum">1</span>
       <span class="weekLabel">Week 1</span>
     </button>
     <button type="button" class="weekBtn" data-week="2" aria-label="Week 2">
-      <span class="weekArt"><img src="assets/b7/week_2_thumb.png?v=1" alt=""></span>
+      <span class="weekArt"><img src="assets/b7w2/boy_happy.png?v=2" alt=""></span>
       <span class="weekNum">2</span>
       <span class="weekLabel">Week 2</span>
     </button>
     <button type="button" class="weekBtn" data-week="3" aria-label="Week 3">
-      <span class="weekArt"><img src="assets/b7/week_3_thumb.png?v=1" alt=""></span>
+      <span class="weekArt"><img src="assets/b7w3/girl_happy.png?v=3" alt=""></span>
       <span class="weekNum">3</span>
       <span class="weekLabel">Week 3</span>
     </button>
     <button type="button" class="weekBtn" data-week="4" aria-label="Week 4">
-      <span class="weekArt"><img src="assets/b7/week_4_thumb.png?v=1" alt=""></span>
+      <span class="weekArt"><img src="assets/b7w4/boy_happy.png?v=5" alt=""></span>
       <span class="weekNum">4</span>
       <span class="weekLabel">Week 4</span>
     </button>
@@ -1777,7 +1777,7 @@ K.reg('cp_intro_bee','assets/voice/cp_intro_bee.mp3','Can you fix the pattern? T
 K.reg('cp_intro_hive','assets/voice/cp_intro_hive.mp3','Help me fix this pattern. Tap the correct picture.');
 K.reg('cp_intro_w4a','assets/voice/cp_intro_w4a.mp3','Let\'s play with patterns. This pattern is missing a picture. Which picture is missing? Tap the correct picture.');
 // W4 review two-beat intro: Gerry presents (own voice), then the keeper reads the question.
-K.reg('gerry_w4a','assets/voice/gerry_w4a.mp3','Hi friends, it\'s Gerry! Patterns love to repeat. Let\'s take a look!');
+K.reg('gerry_w4a','assets/voice/gerry_w4a.mp3','Patterns love to repeat. Let\'s take a look!');
 K.reg('q_w4a','assets/voice/q_w4a.mp3','Which picture is missing? Tap the correct picture.');
 ['bee','hive','w4a'].forEach(a=>ACTS[a].ok.forEach(o=>K.reg(o.v,'assets/voice/'+o.v+'.mp3',o.p+' '+o.t.replace(/<[^>]+>/g,'').replace(' — ',', '))));
 let act='bee', roundIdx=0, score=0, locked=true;
@@ -1817,10 +1817,12 @@ function start(a){
   // then the keeper's voice reads the actual question (q_<act>, trimmed from the old intro mp3).
   const w4act = (act==='w4a');
   if(w4act){
-    K.introPair(
-      {voice:'gerry_'+act, still:'assets/b7w4/gerry_intro.png', video:'assets/b7w4/gerry_'+act+'.webm?v=1', est:6500},
-      {voice:'q_'+act,     still:'assets/b7/keeper_bust_idle.png', est:5500},
-      ()=>{ locked=false; });
+    // Gerry presents (animated, feet visible), THEN the question is read VOICE-ONLY over the
+    // board -- no character or picture. K.play stores on K.sayNode so a correct answer's
+    // celebrate (which does K.stopSound(K.sayNode)) cuts it cleanly.
+    K.intro(
+      {voice:'gerry_'+act, still:'assets/b7w4/gerry_intro.png?v=2', video:'assets/b7w4/gerry_'+act+'.webm?v=2', est:4500},
+      ()=>{ locked=false; K.later(()=>{ K.sayNode=K.stopSound(K.sayNode); K.sayNode=K.play('q_'+act); }, 450); });
   } else {
     const kOpts = {voice:A.intro.voice, text:A.intro.text, est:A.intro.est,
                    still:'assets/b7/keeper_bust_idle.png',
@@ -1994,9 +1996,9 @@ K.reg('tk_intro_w4s1','assets/voice/tk_intro_w4s1.mp3','Take away using the pict
 K.reg('tk_intro_w4s2','assets/voice/tk_intro_w4s2.mp3','I know how to take away! Count the pictures, then cross out the ones we take away.');
 K.reg('tk_intro_w4t2','assets/voice/tk_intro_w4t2.mp3','Now we take away twice. Some bees fly away, then some more fly away. Count what is left.');
 // W4 review two-beat intro: Gerry presents (own voice), then keeper reads the question.
-K.reg('gerry_w4s1','assets/voice/gerry_w4s1.mp3','Hi, it\'s Gerry! Sometimes things fly away. Let\'s practice taking away!');
-K.reg('gerry_w4s2','assets/voice/gerry_w4s2.mp3','It\'s Gerry again! Let\'s take away some more together!');
-K.reg('gerry_w4t2','assets/voice/gerry_w4t2.mp3','Hi, it\'s Gerry! This one takes two whole steps. Here we go!');
+K.reg('gerry_w4s1','assets/voice/gerry_w4s1.mp3','Sometimes things fly away. Let\'s practice taking away!');
+K.reg('gerry_w4s2','assets/voice/gerry_w4s2.mp3','Let\'s take away some more together!');
+K.reg('gerry_w4t2','assets/voice/gerry_w4t2.mp3','This one takes two whole steps. Here we go!');
 K.reg('q_w4s1','assets/voice/q_w4s1.mp3','Count the pictures, then cross out the ones we take away.');
 K.reg('q_w4s2','assets/voice/q_w4s2.mp3','Count the pictures, then cross out the ones we take away.');
 K.reg('q_w4t2','assets/voice/q_w4t2.mp3','Some bees fly away, then some more fly away. Count what is left.');
@@ -2039,8 +2041,11 @@ function renderRound(){
   // read the question printed on the page as each round opens
   K.later(function(){ if(!locked) K.say(A.askVoice||'tk_ask2', null, 4200); }, 300);
   const op2=$('eqOp2'), eqC=$('eqC');
-  // the [hidden] attribute does not win inside the flex row -- set display explicitly
-  op2.style.display = eqC.style.display = (A.mode==='two') ? '' : 'none';
+  // The spans carry the [hidden] attribute (display:none). Setting display back to '' just
+  // reverts to that, so the second take-away ("- c") stayed invisible even though its text was
+  // set -- the equation READ "9 - 3 - 2" in the DOM but SHOWED "9 - 3". Use a concrete display
+  // value so the inline style beats [hidden] and the second take-away is actually visible.
+  op2.style.display = eqC.style.display = (A.mode==='two') ? 'inline' : 'none';
   if(A.mode==='two'){
     $('eqA').textContent=f.a; $('eqB').textContent=f.b; eqC.textContent=f.c;
     $('qAsk').innerHTML=r.ask1;          // wave one first; wave two is asked after it
@@ -2118,11 +2123,10 @@ function start(a){
   const w2act = (act==='three'||act==='four');   // weeks share this engine, not the teacher
   const w3act = (act==='five'||act==='ften'||act==='hive3'||act==='rule3'||act==='miss3'||act==='step3');
   if(w4act){
-    // W4 review two-beat intro: Gerry presents (his own Grok voice), then the keeper reads the question.
-    K.introPair(
-      {voice:'gerry_'+act, still:'assets/b7w4/gerry_intro.png', video:'assets/b7w4/gerry_'+act+'.webm?v=1', est:6500},
-      {voice:'q_'+act,     still:'assets/b7/keeper_bust_idle.png', est:6500},
-      ()=>{ renderRound(); });
+    // Gerry presents, then the question is read VOICE-ONLY over the board (no picture).
+    K.intro(
+      {voice:'gerry_'+act, still:'assets/b7w4/gerry_intro.png?v=2', video:'assets/b7w4/gerry_'+act+'.webm?v=2', est:4500},
+      ()=>{ renderRound(); K.later(()=>{ K.sayNode=K.stopSound(K.sayNode); K.sayNode=K.play('q_'+act); }, 450); });
   } else {
     const kOpts = {voice:A.intro.voice, text:A.intro.text, est:A.intro.est,
                    still: w3act ? 'assets/b7w3/keeper_bust_idle.png'
@@ -2366,7 +2370,7 @@ K.reg('fx_ask_fw','assets/voice/fx_ask_fw.mp3','This is an A A B B pattern. Circ
 K.reg('fx_ask_tr','assets/voice/fx_ask_tr.mp3','This is an A B A A pattern. Circle the wrong picture.');
 K.reg('fx_ask_gd','assets/voice/fx_ask_gd.mp3','Look at the pattern. Circle the wrong picture.');
 K.reg('fx_intro_w4t1','assets/voice/fx_intro_w4t1.mp3','Every row has a rule that repeats. Look at the top row and find the rule. Then look below. One picture breaks the rule. Tap the wrong picture.');
-K.reg('gerry_w4t1','assets/voice/gerry_w4t1.mp3','Hey, it\'s Gerry! Uh oh, this pattern got mixed up. Let\'s fix it!');
+K.reg('gerry_w4t1','assets/voice/gerry_w4t1.mp3','Uh oh, this pattern got mixed up. Let\'s fix it!');
 K.reg('q_w4t1','assets/voice/q_w4t1.mp3','Look at the top row and find the rule. Then look below. One picture breaks the rule. Tap the wrong picture.');
 K.reg('fx_ask_w4t1','assets/voice/fx_ask_w4t1.mp3','Look at the pattern. Circle the wrong picture.');
 Object.keys(ACTS).forEach(a=>ACTS[a].rounds.forEach(r=>K.reg(r.v,'assets/voice/'+r.v+'.mp3',
@@ -2429,10 +2433,10 @@ function start(a){
   // W3 acts use week-3's presenter; the Week-4 review (w4t1) gets its own clip and folder.
   const w4act=(act==='w4t1');
   if(w4act){
-    K.introPair(
-      {voice:'gerry_'+act, still:'assets/b7w4/gerry_intro.png', video:'assets/b7w4/gerry_'+act+'.webm?v=1', est:6500},
-      {voice:'q_'+act,     still:'assets/b7w3/keeper_bust_idle.png', est:8000},
-      function(){ renderRound(); });
+    // Gerry presents, then the question is read VOICE-ONLY over the board (no picture).
+    K.intro(
+      {voice:'gerry_'+act, still:'assets/b7w4/gerry_intro.png?v=2', video:'assets/b7w4/gerry_'+act+'.webm?v=2', est:4500},
+      function(){ renderRound(); K.later(function(){ K.sayNode=K.stopSound(K.sayNode); K.sayNode=K.play('q_'+act); }, 450); });
   } else {
     K.intro(
       {voice:A.intro.voice, text:A.intro.text, est:A.intro.est,
@@ -2480,7 +2484,7 @@ K.reg('boy_mt_s','assets/voice/boy_mt_s.mp3','I will find it!');
 K.reg('mt_intro_flow','assets/voice/mt_intro_flow.mp3','Look at my pattern. Flowers, flowers, bee, bee. One row below is the same. Tap A or B.');
 K.reg('mt_intro_sun','assets/voice/mt_intro_sun.mp3','Here is a new pattern. Sun, bee, sun, bee. Find the row that is the same. Tap its letter.');
 K.reg('mt_intro_w4b','assets/voice/mt_intro_w4b.mp3','Look at the patterns. Hive, flower, hive, flower. One row below is the same. Tap A or B.');
-K.reg('gerry_w4b','assets/voice/gerry_w4b.mp3','Hey, it\'s Gerry! Every pattern follows its own special rule!');
+K.reg('gerry_w4b','assets/voice/gerry_w4b.mp3','Every pattern follows its own special rule!');
 K.reg('q_w4b','assets/voice/q_w4b.mp3','One row below is the same. Tap A or B.');
 K.reg('mt_ask','assets/voice/mt_ask.mp3','Look at the pattern. Circle the correct letter. Tap A or B.');
 Object.keys(ACTS).forEach(a=>ACTS[a].rounds.forEach(r=>K.reg(r.v,'assets/voice/'+r.v+'.mp3',r.p+' '+r.t.replace(/<[^>]+>/g,'').replace(' \u2014 ',', '))));
@@ -2529,10 +2533,10 @@ function start(a){
   const w4act=(act==='w4b');
   const vname = act==='flow' ? 'mtf' : act==='sun' ? 'mts' : act;
   if(w4act){
-    K.introPair(
-      {voice:'gerry_'+act, still:'assets/b7w4/gerry_intro.png', video:'assets/b7w4/gerry_'+act+'.webm?v=1', est:6500},
-      {voice:'q_'+act,     still:'assets/b7w2/keeper_bust_idle.png?v=3', est:5500},
-      function(){ renderRound(); });
+    // Gerry presents, then the question is read VOICE-ONLY over the board (no picture).
+    K.intro(
+      {voice:'gerry_'+act, still:'assets/b7w4/gerry_intro.png?v=2', video:'assets/b7w4/gerry_'+act+'.webm?v=2', est:4500},
+      function(){ renderRound(); K.later(function(){ K.sayNode=K.stopSound(K.sayNode); K.sayNode=K.play('q_'+act); }, 450); });
   } else {
     K.intro(
       {voice:A.intro.voice, text:A.intro.text, est:A.intro.est,
@@ -2689,23 +2693,23 @@ window.Hub = {
   // Every week has its OWN videos, thumbnails and titles — nothing is shared across weeks.
   videosByWeek:{
     1:{
-      'concept':{title:'Math Literacy Video', src:'assets/videos/b7w1_concept.mp4?v=1', thumb:'assets/videos/thumbs/b7w1_concept.png?v=1'},
-      'poem':   {title:'Math Literature',     src:'assets/videos/b7w1_literature.mp4?v=10', thumb:'assets/videos/thumbs/b7w1_literature.png?v=2'}
+      'concept':{title:'B-7 · Week 1 · Concept', src:'assets/videos/b7w1_concept.mp4?v=2', thumb:'assets/videos/thumbs/b7w1_concept.png?v=9'},
+      'poem':   {title:'B-7 · Week 1 · Math Literature',     src:'assets/videos/b7w1_literature.mp4?v=10', thumb:'assets/videos/thumbs/b7w1_literature.png?v=9'}
     },
     2:{
-      'concept':{title:'Math Literacy Video', src:'assets/videos/b7w2_concept.mp4?v=1', thumb:'assets/videos/thumbs/b7w2_concept.png?v=1'},
-      'poem':   {title:'Math Literature',     src:'assets/videos/b7w2_literature.mp4?v=1', thumb:'assets/videos/thumbs/b7w2_literature.png?v=1'}
+      'concept':{title:'B-7 · Week 2 · Concept', src:'assets/videos/b7w2_concept.mp4?v=1', thumb:'assets/videos/thumbs/b7w2_concept.png?v=9'},
+      'poem':   {title:'B-7 · Week 2 · Math Literature',     src:'assets/videos/b7w2_literature.mp4?v=1', thumb:'assets/videos/thumbs/b7w2_literature.png?v=9'}
     },
     3:{
-      'concept':{title:'Math Literacy Video', src:'assets/videos/b7w3_concept.mp4?v=1', thumb:'assets/videos/thumbs/b7w3_concept.png?v=1'},
-      'poem':   {title:'Math Literature',     src:'assets/videos/b7w3_literature.mp4?v=3', thumb:'assets/videos/thumbs/b7w3_literature.png?v=3'}
+      'concept':{title:'B-7 · Week 3 · Concept', src:'assets/videos/b7w3_concept.mp4?v=1', thumb:'assets/videos/thumbs/b7w3_concept.png?v=1'},
+      'poem':   {title:'B-7 · Week 3 · Math Literature',     src:'assets/videos/b7w3_literature.mp4?v=3', thumb:'assets/videos/thumbs/b7w3_literature.png?v=9'}
     },
     // Week 4's videos are not made yet -- both are held with `pending` below. The thumbs
     // point at week-3's files only so nothing 404s on the (disabled) cards; swap them and
     // the srcs to real b7w4 files when the concept + literature videos land.
     4:{
-      'concept':{title:'Math Literacy Video', src:'assets/videos/b7w4_concept.mp4?v=1', thumb:'assets/videos/thumbs/b7w3_concept.png?v=1'},
-      'poem':   {title:'Math Literature',     src:'assets/videos/b7w4_literature.mp4?v=1', thumb:'assets/videos/thumbs/b7w4_literature.png?v=1'}
+      'concept':{title:'B-7 · Week 4 · Concept', src:'assets/videos/b7w4_concept.mp4?v=1', thumb:'assets/videos/thumbs/b7w4_concept.png?v=9'},
+      'poem':   {title:'B-7 · Week 4 · Math Literature',     src:'assets/videos/b7w4_literature.mp4?v=1', thumb:'assets/videos/thumbs/b7w4_literature.png?v=9'}
     }
   },
   get videos(){ return this.videosByWeek[this.week] || this.videosByWeek[1]; },
@@ -2726,7 +2730,7 @@ window.Hub = {
     // week-3 PLACEHOLDER (same hub cast) so nothing is broken -- replace with the real
     // b7w4 hub art (Beaver / Eagle / Lion holding the review props) once generated.
     4:{ title:'Week 4 — Pattern Play!', sub:'Let\'s review our patterns!',
-        pending:['concept'],
+        pending:[],
         videos:'assets/b7w3/hub_w3_videos.png?v=1', act1:'assets/b7w3/hub_w3_activities_1.png?v=1', act2:'assets/b7w3/hub_w3_activities_2.png?v=1', act3:'assets/b7w3/hub_w3_thinking_math.png?v=1' }
   },
   applyWeekArt(week){

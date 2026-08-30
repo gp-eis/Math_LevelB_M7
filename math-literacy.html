@@ -70,6 +70,13 @@
       linear-gradient(165deg,#ffe8ef 0%,#fff1e0 45%,#ffe9d4 100%);}
   @supports (height:100dvh){#weeks{min-height:100dvh;}}
   #weeks.hide{display:none;}
+  /* "Go to GP English" button: centered under the logo, links to this level's weekly page. */
+  .siteHomeBtn{appearance:none;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:.45em;
+    font-family:'Fredoka',sans-serif;font-weight:700;font-size:clamp(14px,2.1vh,19px);color:#fff;letter-spacing:.01em;
+    padding:.62em 1.5em;border-radius:999px;background:linear-gradient(155deg,#8be0a0 0%,#3cba7a 55%,#278754 100%);
+    box-shadow:0 3px 0 #1f6e44,0 5px 14px rgba(0,0,0,.2);transition:transform .08s;}
+  .siteHomeBtn:hover{filter:brightness(1.05);}
+  .siteHomeBtn:active{transform:translateY(2px);box-shadow:0 1px 0 #1f6e44,0 2px 6px rgba(0,0,0,.2);}
   .weeksHeader{display:flex;flex-direction:column;align-items:center;gap:12px;flex:none;}
   .weeksLogo{width:clamp(78px,11vh,120px);height:auto;object-fit:contain;display:block;margin-bottom:2px;}
   .weeksLevel{font-family:'Fredoka',sans-serif;font-weight:700;font-size:clamp(16px,2.4vh,22px);
@@ -1018,6 +1025,7 @@
     <div class="weeksLevel">Level B</div>
     <div class="weeksTitle">Choose a Week</div>
   </header>
+  <button type="button" class="siteHomeBtn" onclick="location.href='https://www.gpeisenglish.com/copy-of-level-b-weekly-04'">Go to GP English</button>
   <div class="weeksRow" role="navigation" aria-label="Level B weeks">
     <button type="button" class="weekBtn" data-week="1" aria-label="Open Week 1">
       <span class="weekArt"><img src="assets/b7/girl_idle.png?v=1" alt=""></span>
@@ -1191,7 +1199,7 @@
       <div class="introCard">
         <div class="introBubble" id="cp_introText"></div>
         <div class="introChar" id="cp_introChar">
-          <img id="cp_introImg" src="assets/b7/keeper_bust_idle.png" alt="">
+          <img id="cp_introImg" src="assets/b7/keeper_bust_idle.png?v=2" alt="">
           <video id="cp_introVid" muted playsinline preload="none"></video>
         </div>
         <div class="introHint">Tap to continue</div>
@@ -1238,7 +1246,7 @@
       <div class="introCard">
         <div class="introBubble" id="tk_introText"></div>
         <div class="introChar" id="tk_introChar">
-          <img id="tk_introImg" src="assets/b7/keeper_bust_idle.png" alt="">
+          <img id="tk_introImg" src="assets/b7/keeper_bust_idle.png?v=2" alt="">
           <video id="tk_introVid" muted playsinline preload="none"></video>
         </div>
         <div class="introHint">Tap to continue</div>
@@ -1284,7 +1292,7 @@
       <div class="introCard">
         <div class="introBubble" id="gd_introText"></div>
         <div class="introChar" id="gd_introChar">
-          <img id="gd_introImg" src="assets/b7/keeper_bust_idle.png" alt="">
+          <img id="gd_introImg" src="assets/b7/keeper_bust_idle.png?v=2" alt="">
           <video id="gd_introVid" muted playsinline preload="none"></video>
         </div>
         <div class="introHint">Tap to continue</div>
@@ -1328,7 +1336,7 @@
       <div class="introCard">
         <div class="introBubble" id="fa_introText"></div>
         <div class="introChar" id="fa_introChar">
-          <img id="fa_introImg" src="assets/b7/keeper_bust_idle.png" alt="">
+          <img id="fa_introImg" src="assets/b7/keeper_bust_idle.png?v=2" alt="">
           <video id="fa_introVid" muted playsinline preload="none"></video>
         </div>
         <div class="introHint">Tap to continue</div>
@@ -1373,7 +1381,7 @@
       <div class="introCard">
         <div class="introBubble" id="mt_introText"></div>
         <div class="introChar" id="mt_introChar">
-          <img id="mt_introImg" src="assets/b7/keeper_bust_idle.png" alt="">
+          <img id="mt_introImg" src="assets/b7/keeper_bust_idle.png?v=2" alt="">
           <video id="mt_introVid" muted playsinline preload="none"></video>
         </div>
         <div class="introHint">Tap to continue</div>
@@ -1466,7 +1474,7 @@
       <div class="introCard">
         <div class="introBubble" id="bd_introText"></div>
         <div class="introChar" id="bd_introChar">
-          <img id="bd_introImg" src="assets/b7/keeper_bust_idle.png" alt="">
+          <img id="bd_introImg" src="assets/b7/keeper_bust_idle.png?v=2" alt="">
           <video id="bd_introVid" muted playsinline preload="none"></video>
         </div>
         <div class="introHint">Tap to continue</div>
@@ -1510,7 +1518,7 @@
       <div class="introCard">
         <div class="introBubble" id="lf_introText"></div>
         <div class="introChar" id="lf_introChar">
-          <img id="lf_introImg" src="assets/b7/keeper_bust_idle.png" alt="">
+          <img id="lf_introImg" src="assets/b7/keeper_bust_idle.png?v=2" alt="">
           <video id="lf_introVid" muted playsinline preload="none"></video>
         </div>
         <div class="introHint">Tap to continue</div>
@@ -1552,17 +1560,38 @@ const CAPW=w=>w.charAt(0).toUpperCase()+w.slice(1);
    four of FlyGame's rounds disagreed that way. */
 const PRAISE=['Great job!','Excellent!','Amazing!','Wonderful!'];
 const PRW=(n,k)=>PRAISE[(n+k)%4];
-function SUBSENT(n,k){ const d=n-k;
+// The celebration teaches that the STORY ACTION is subtraction, not the arithmetic (the child
+// already knows 8-3). Each subtraction act carries a `sub` action: {tag, line ('#'=amount), ing}.
+// e.g. SELL -> "You sold three flowers. Selling is subtracting!". Acts with no clear story use TAKE.
+// `line`: '#'=amount word; a 'sg|pl' token picks singular when the amount is one
+// (so k=1 reads "one bee flew away", not "one bees").
+const SELL={tag:'sell', line:'you sold # flower|flowers',   ing:'Selling'};
+const MOVE={tag:'move', line:'you moved # beehive|beehives', ing:'Moving'};
+const FLY ={tag:'fly',  line:'# bee|bees flew away',         ing:'Flying away', twice:'bees flew away, then more flew away'};
+const FALL={tag:'fall', line:'# leaf|leaves fell down',      ing:'Falling'};
+const TAKE={tag:'take', line:'you took # away',              ing:'Taking away', twice:'you took some away, then more away'};
+const SUBCLAUSE=(sub,k)=>CAPW(sub.line.replace('#',NUMW[k]).replace(/([a-z]+)\|([a-z]+)/,k===1?'$1':'$2'));
+// action-aware celebration share by (action tag, amount): same wording => same file, and the praise
+// is fixed per amount so display and audio can't drift (PRW rotates by fact and is for the old wording).
+const SUBKEY=(sub,k)=>'tk_eq_'+sub.tag+'_'+k;
+const SUBPR=(k)=>PRAISE[k%4];
+// two-step celebration is action-only (no numbers): the equation strip already shows n-a-b,
+// so the message just names the repeated action and calls it subtracting. One file per action.
+const TWO2PR=(sub2)=>PRAISE[sub2.tag==='fly'?3:2];
+function SUBSENT(n,k,sub){ const d=n-k;
+  if(sub){ return '<span class="ln">'+SUBCLAUSE(sub,k)+'.</span>'
+       + '<span class="ln"><b class="term">'+sub.ing+'</b> is subtracting!</span>'; }
   return '<span class="ln"><b>'+CAPW(NUMW[n])+'</b> minus <b>'+NUMW[k]+'</b> equals <b>'+NUMW[d]+'</b>.</span>'
        + '<span class="ln">The <b class="term">difference</b> is <b>'+NUMW[d]+'</b>.</span>'; }
-function SUBSAY(praise,n,k){ const d=n-k;
+function SUBSAY(praise,n,k,sub){ const d=n-k;
+  if(sub){ return praise+' '+SUBCLAUSE(sub,k)+'. '+sub.ing+' is subtracting!'; }
   return praise+' '+CAPW(NUMW[n])+' minus '+NUMW[k]+' equals '+NUMW[d]+'. The difference is '+NUMW[d]+'.'; }
-/* Two subtractions in a row -- same shape, same repetition, one more step. */
-function SUB2SENT(n,a,b){ const d=n-a-b;
-  return '<span class="ln"><b>'+CAPW(NUMW[n])+'</b> minus <b>'+NUMW[a]+'</b> minus <b>'+NUMW[b]+'</b> equals <b>'+NUMW[d]+'</b>.</span>'
-       + '<span class="ln"><b>'+CAPW(NUMW[d])+'</b> are <b class="term">left</b>.</span>'; }
-function SUB2SAY(praise,n,a,b){ const d=n-a-b;
-  return praise+' '+CAPW(NUMW[n])+' minus '+NUMW[a]+' minus '+NUMW[b]+' equals '+NUMW[d]+'. '+CAPW(NUMW[d])+' are left.'; }
+/* Two subtractions in a row -- action-only, teaching the same action=subtraction point. */
+function SUB2SENT(sub2){
+  return '<span class="ln">'+CAPW(sub2.twice)+'.</span>'
+       + '<span class="ln"><b class="term">'+sub2.ing+'</b> is subtracting!</span>'; }
+function SUB2SAY(praise,sub2){
+  return praise+' '+CAPW(sub2.twice)+'. '+sub2.ing+' is subtracting!'; }
 function shuffleArr(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
 function makeBKit(pfx){
   const $=id=>document.getElementById(pfx+'_'+id);
@@ -1571,7 +1600,7 @@ function makeBKit(pfx){
   // Bump VOICEV whenever any assets/voice/*.mp3 is re-recorded. Without it a browser
   // that cached the old take plays the old wording under the new on-screen sentence,
   // which is exactly the mismatch this rule exists to prevent.
-  const VOICEV='4';
+  const VOICEV='5';
   K.reg=function(name,src,fallbackText,vol){ let ok=false;
     if(src && src.indexOf('/voice/')>=0 && src.indexOf('?')<0) src+='?v='+VOICEV;
     const a=new Audio(src); a.preload='auto'; a.volume=(vol==null?1:vol);
@@ -1821,12 +1850,12 @@ function start(a){
     // board -- no character or picture. K.play stores on K.sayNode so a correct answer's
     // celebrate (which does K.stopSound(K.sayNode)) cuts it cleanly.
     K.intro(
-      {voice:'gerry_'+act, still:'assets/b7w4/gerry_intro.png?v=2', video:'assets/b7w4/gerry_'+act+'.webm?v=2', est:4500},
+      {voice:'gerry_'+act, still:'assets/b7w4/gerry_intro.png?v=2', video:'assets/b7w4/gerry_'+act+'.webm?v=3', est:4500},
       ()=>{ locked=false; K.later(()=>{ K.sayNode=K.stopSound(K.sayNode); K.sayNode=K.play('q_'+act); }, 450); });
   } else {
     const kOpts = {voice:A.intro.voice, text:A.intro.text, est:A.intro.est,
-                   still:'assets/b7/keeper_bust_idle.png',
-                   video:'assets/b7/keeper_talk_'+act+'.webm?v=4'};
+                   still:'assets/b7/keeper_bust_idle.png?v=2',
+                   video:'assets/b7/keeper_talk_'+act+'.webm?v=5'};
     // The presenter alone carries the intro. The heroes exist for the celebration animation.
     K.intro(kOpts, ()=>{ locked=false; });
   }
@@ -1840,26 +1869,26 @@ K.wireNav(window.CompleteGame);
 const K=makeBKit('tk'), $=K.$;
 const BOX=['#ec5866','#45b2e8','#f2c94c','#7bc96f'];   // red, blue, yellow, green — the book's four boxes
 const ACTS={
-  one:{ k:1, intro:{voice:'tk_intro_one', text:'Take away one.', est:5000}, pre:'Using pictures to subtract.', ask:'Take away <b>one</b>. Tap <b>one</b>.',
+  one:{ k:1, sub:TAKE, intro:{voice:'tk_intro_one', text:'Take away one.', est:5000}, pre:'Using pictures to subtract.', ask:'Take away <b>one</b>. Tap <b>one</b>.',
         rounds:[ {obj:'bee',n:2}, {obj:'flower',n:3}, {obj:'honey',n:4}, {obj:'hive',n:5} ] },
-  two:{ k:2, intro:{voice:'tk_intro_two', text:'Take away two.', est:5000}, pre:'Using pictures to subtract.', ask:'Take away <b>two</b>. Tap <b>two</b>.',
+  two:{ k:2, sub:TAKE, intro:{voice:'tk_intro_two', text:'Take away two.', est:5000}, pre:'Using pictures to subtract.', ask:'Take away <b>two</b>. Tap <b>two</b>.',
         rounds:[ {obj:'bee',n:2}, {obj:'flower',n:3}, {obj:'honey',n:4}, {obj:'hive',n:5} ] },
   // Week 2, book p.12-13 — same engine, that week's own numbers and pictures
-  three:{ k:3, intro:{voice:'tk_intro_three', text:'Now we take some away.<br>Count the pictures.<br>Then take away three.<br>How many are left?', est:7900},
+  three:{ k:3, sub:SELL, intro:{voice:'tk_intro_three', text:'When we sell flowers,<br>they go away.<br>Selling takes them away.<br>That is subtracting!', est:8000},
         pre:'We sold three flowers.', ask:'Take away <b>three</b>. Tap <b>three</b>.',
         rounds:[ {obj:'flowers',n:5}, {obj:'flowers',n:6}, {obj:'flowers',n:7}, {obj:'flowers',n:8} ] },
-  four:{ k:4, intro:{voice:'tk_intro_four', text:'This time, take away four.<br>Count the pictures first.<br>Then tap four of them.', est:6000},
+  four:{ k:4, sub:MOVE, intro:{voice:'tk_intro_four', text:'When we move beehives away,<br>fewer are left.<br>Moving them away<br>is subtracting!', est:8000},
         pre:'We moved four beehives.', ask:'Take away <b>four</b>. Tap <b>four</b>.',
         rounds:[ {obj:'hive2',n:5}, {obj:'hive2',n:6}, {obj:'hive2',n:7}, {obj:'hive2',n:8} ] },
   // Week 3, book p.18 -- "Nine take away ___ leaves ___". Every problem starts from
   // NINE and it is k that moves, the mirror of p.19's from-ten page. An earlier build
   // had this as "take away five" from 7/8/9/10, which was the stale PDF's version.
-  five:{ k:7, intro:{voice:'tk_intro_five', text:'Nine take away some<br>leaves how many?<br>Count what is left.', est:7000},
+  five:{ k:7, sub:TAKE, intro:{voice:'tk_intro_five', text:'Nine take away some<br>leaves how many?<br>Count what is left.', est:7000},
         pre:'Nine take away — leaves —.', ask:'Take some away. How many are <b>left</b>?',
         rounds:[ {obj:'hive2',n:9,k:7}, {obj:'bee2',n:9,k:6}, {obj:'stream',n:9,k:5}, {obj:'trees',n:9,k:4} ] },
   // Week 3, book p.19 -- always FROM TEN, so k moves per round instead of n.
   // The engine read k off the act; it now prefers a per-round k when one is given.
-  ften:{ k:2, intro:{voice:'tk_intro_ften', text:'This time we always start with ten.<br>Take some away and<br>count what is left.', est:7000},
+  ften:{ k:2, sub:TAKE, intro:{voice:'tk_intro_ften', text:'This time we always start with ten.<br>Take some away and<br>count what is left.', est:7000},
         pre:'Ten take away — leaves —.', ask:'Take some away. How many are <b>left</b>?',
         rounds:[ {obj:'trees',n:10,k:2}, {obj:'hive2',n:10,k:4}, {obj:'bee2',n:10,k:6}, {obj:'sun',n:10,k:8} ] },
   /* ---- Week 3 Thinking Math ------------------------------------------------------
@@ -1872,7 +1901,7 @@ const ACTS={
      miss3  reads the rule to find what belongs in the holes, then counts one kind.
      Neither can be solved by counting alone: in miss3 the number of holes is
      deliberately NOT the answer. */
-  rule3:{ mode:'rule', askVoice:'tk_ask_rule',
+  rule3:{ mode:'rule', sub:TAKE, askVoice:'tk_ask_rule',
     intro:{voice:'tk_intro_rule3', text:'', est:12000},
     pre:'Read the <b>pattern</b> first.',
     rounds:[
@@ -1891,7 +1920,7 @@ const ACTS={
      deliberate trap, which was too much. This asks for the same lesson (take away from
      nine and ten) applied TWICE, which is a real step past the book's single-step pages
      but stays concrete: they can see and count what is still on the board. */
-  step3:{ mode:'two', askVoice:'tk_ask_step',
+  step3:{ mode:'two', sub2:TAKE, askVoice:'tk_ask_step',
     intro:{voice:'tk_intro_step3', text:'', est:12000},
     pre:'Take some away, then take away <b>again</b>.',
     rounds:[
@@ -1900,7 +1929,7 @@ const ACTS={
       {obj:'trees',  n:10, k1:5, k2:2, ask1:'Five trees are cut. Tap <b>five</b>.',        ask2:'Now two more are cut. Tap <b>two</b>.'}
     ]},
   // kept, unwired: the harder "what is missing from the rule" version of this slot
-  miss3:{ mode:'missing', askVoice:'tk_ask_miss',
+  miss3:{ mode:'missing', sub:TAKE, askVoice:'tk_ask_miss',
     intro:{voice:'tk_intro_miss3', text:'', est:12000},
     pre:'Some pictures fell off the <b>page</b>.',
     rounds:[
@@ -1916,20 +1945,20 @@ const ACTS={
        blanks:[0,1,4,8], want:'flowers', ask:'How many <b>flowers</b> are missing?'}
     ]},
   // Week 2 Thinking Math 2 -- kept for week 2
-  hive3:{ k:3, intro:{voice:'tk_intro_hive3', text:'Ten bees are at the hive.<br>Some bees fly away.<br>How many bees are left?', est:7200}, pre:'Ten bees are at the hive.', ask:'Some bees fly away. How many are <b>left</b>?',
+  hive3:{ k:3, sub:FLY, intro:{voice:'tk_intro_hive3', text:'Ten bees are at the hive.<br>Some bees fly away.<br>How many bees are left?', est:7200}, pre:'Ten bees are at the hive.', ask:'Some bees fly away. How many are <b>left</b>?',
         rounds:[ {obj:'bee2',n:10,k:3}, {obj:'bee2',n:10,k:5}, {obj:'bee2',n:10,k:7} ] },
   // Week 4 review, book p.24 — mixed subtractions, each round its OWN take-away number.
   // The equation box shows n and k, so the generic ask is enough; celebration mp3s are the
   // per-fact tk_eq_<n>_<k> shared across the whole level (7-2 and 7-1 are the only new facts).
-  w4s1:{ k:1, intro:{voice:'tk_intro_w4s1', text:'Take away using the pictures.<br>Count, then cross them out.', est:6000},
+  w4s1:{ k:1, sub:TAKE, intro:{voice:'tk_intro_w4s1', text:'Take away using the pictures.<br>Count, then cross them out.', est:6000},
         pre:'Using pictures to subtract.', ask:'Take away using the <b>pictures</b>.',
         rounds:[ {obj:'flower',n:5,k:4}, {obj:'honey',n:6,k:3}, {obj:'book',n:7,k:2}, {obj:'hive',n:8,k:4} ] },
   // book p.25 — more mixed subtractions, up to ten
-  w4s2:{ k:1, intro:{voice:'tk_intro_w4s2', text:'I know how to take away!<br>Count, then cross them out.', est:6000},
+  w4s2:{ k:1, sub:TAKE, intro:{voice:'tk_intro_w4s2', text:'I know how to take away!<br>Count, then cross them out.', est:6000},
         pre:'Using pictures to subtract.', ask:'Take away using the <b>pictures</b>.',
         rounds:[ {obj:'bee2',n:10,k:2}, {obj:'leaf',n:9,k:5}, {obj:'bee2',n:8,k:3}, {obj:'hive',n:7,k:1} ] },
   // Thinking Math 2 -- an application: take away TWICE (two-step), new numbers for W4
-  w4t2:{ mode:'two', askVoice:'tk_ask_step', intro:{voice:'tk_intro_w4t2', text:'Now we take away twice.<br>Some fly away, then more.', est:7000},
+  w4t2:{ mode:'two', sub2:FLY, askVoice:'tk_ask_step', intro:{voice:'tk_intro_w4t2', text:'Now we take away twice.<br>Some fly away, then more.', est:7000},
         pre:'Take away twice.', ask:'Count the pictures.',
         rounds:[
           {obj:'bee2', n:9,  k1:3, k2:2, ask1:'Three bees fly away. Tap them.', ask2:'Now two more fly away. Tap them.'},
@@ -1957,23 +1986,25 @@ function FACT(A,r){
   if(A.mode==='two') return {a:r.n, b:r.k1, c:r.k2, ans:r.n-r.k1-r.k2};
   const k=kOf(A,r); return {a:r.n, b:k, ans:r.n-k};
 }
-K.reg('tk_intro_one','assets/voice/tk_intro_one.mp3','Let\'s use pictures to subtract. Take away one. Tap one picture.');
+K.reg('tk_intro_one','assets/voice/tk_intro_one.mp3?v=2','Watch! One bee flies away. When one goes away, we take one away.');
 K.reg('boy_tk3','assets/voice/boy_tk3.mp3','I will try!');
 K.reg('boy_tk4','assets/voice/boy_tk4.mp3',"I'll do it carefully!");
 K.reg('girl_tk5','assets/voice/girl_tk5.mp3','I will try!');
-K.reg('tk_intro_two','assets/voice/tk_intro_two.mp3','Take away two. Tap two pictures.');
-K.reg('tk_intro_three','assets/voice/tk_intro_three.mp3','Now we take some away. Count the pictures. Then take away three. How many are left?');
-K.reg('tk_intro_four','assets/voice/tk_intro_four.mp3','This time, take away four. Count the pictures first. Then tap four of them.');
+K.reg('tk_intro_two','assets/voice/tk_intro_two.mp3?v=2','Now two fly away! When things leave, we take them away.');
+K.reg('tk_intro_three','assets/voice/tk_intro_three.mp3?v=3','When we sell flowers, they go away. Selling takes them away. That is subtracting!');
+K.reg('tk_intro_four','assets/voice/tk_intro_four.mp3?v=3','When we move beehives away, fewer are left. Moving them away is subtracting!');
 K.reg('tk_ask','assets/voice/tk_ask.mp3','How many are left? Tap the number.');
 K.reg('tk_ask2','assets/voice/tk_ask2.mp3','Count the pictures. Then cross out the ones we take away.');
-const PR=['Great job!','Excellent!','Amazing!','Wonderful!'];
-[1,2].forEach(k=>[2,3,4,5].forEach(n=>K.reg('tk_eq_'+n+'_'+k,'assets/voice/tk_eq_'+n+'_'+k+'.mp3',SUBSAY(PRW(n,k),n,k))));
-[3,4].forEach(k=>[5,6,7,8].forEach(n=>K.reg('tk_eq_'+n+'_'+k,'assets/voice/tk_eq_'+n+'_'+k+'.mp3',SUBSAY(PRW(n,k),n,k))));
-// week 3: take-away-five, the from-ten page, and the ten-bees application
-[[9,7],[9,6],[9,5],[9,4],[10,2],[10,4],[10,6],[10,8],[10,3],[10,7]].forEach(function(p,i){
-  const n=p[0], k=p[1];
-  K.reg('tk_eq_'+n+'_'+k,'assets/voice/tk_eq_'+n+'_'+k+'.mp3',SUBSAY(PRW(n,k),n,k));
-});
+// Action-aware celebration voices, keyed by (action tag, amount). Every subtraction act
+// carries a `sub` (single) or `sub2` (two-step) action, and the message teaches that the
+// STORY ACTION is subtraction ("You took three away. Taking away is subtracting!") instead
+// of restating the arithmetic. One file per wording; the fly/leaf games reuse these files.
+[['sell',SELL,[3]],['move',MOVE,[4]],['fly',FLY,[1,2,3,5,7]],['fall',FALL,[3,4]],
+ ['take',TAKE,[1,2,3,4,5,6,7,8]]].forEach(function(g){ g[2].forEach(function(k){
+  K.reg('tk_eq_'+g[0]+'_'+k,'assets/voice/tk_eq_'+g[0]+'_'+k+'.mp3',SUBSAY(SUBPR(k),0,k,g[1])); }); });
+// two-step: one file per repeated action, no numbers (the equation strip shows n-a-b)
+K.reg('tk_eq2_fly','assets/voice/tk_eq2_fly.mp3',SUB2SAY(TWO2PR(FLY),FLY));
+K.reg('tk_eq2_take','assets/voice/tk_eq2_take.mp3',SUB2SAY(TWO2PR(TAKE),TAKE));
 K.reg('tk_intro_five','assets/voice/tk_intro_five.mp3','Every problem starts with nine. Take some away, then count what is left.');
 K.reg('tk_intro_ften','assets/voice/tk_intro_ften.mp3','This time we always start with ten. Take some away and count what is left.');
 K.reg('tk_intro_hive3','assets/voice/tk_intro_hive3.mp3','Ten bees are at the hive. Some bees fly away. How many bees are left?');
@@ -1985,25 +2016,20 @@ K.reg('tk_ask_miss','assets/voice/tk_ask_miss.mp3','Look at the rule. What belon
 K.reg('tk_intro_step3','assets/voice/tk_intro_step3.mp3','This time we take away twice. Take some away, then take some away again, and count what is left.');
 K.reg('tk_ask_step','assets/voice/tk_ask_step.mp3','Count the pictures. Then tap the ones that go away.');
 K.reg('tk_ask_step2','assets/voice/tk_ask_step2.mp3','Now some more go away. Tap them too.');
-[[10,3,2],[9,2,3],[10,5,2]].forEach(function(p){ const n=p[0],a=p[1],b=p[2];
-  K.reg('tk_eq2_'+n+'_'+a+'_'+b,'assets/voice/tk_eq2_'+n+'_'+a+'_'+b+'.mp3',SUB2SAY(PRW(n,a+b),n,a,b)); });
-// nine minus three is the only new fact these two acts need
-K.reg('tk_eq_9_3','assets/voice/tk_eq_9_3.mp3',SUBSAY(PRW(9,3),9,3));
-// Week 4 review: three intros plus the only facts no earlier week recorded -- 7-2 and 7-1
-// (single) and the three two-step facts. Every W4 voice sits in the shared /voice/ pool,
-// same as W1-W3, because one mp3 per fact is reused by every game that asks it.
+// (single-step and two-step celebration voices are all registered in the action-aware
+// master block above; step3/w4t2 use tk_eq2_take / tk_eq2_fly.)
+// Week 4 review: three intros. Every W4 voice sits in the shared /voice/ pool,
+// same as W1-W3, because one mp3 per action is reused by every game that asks it.
 K.reg('tk_intro_w4s1','assets/voice/tk_intro_w4s1.mp3','Take away using the pictures. Count the pictures, then cross out the ones we take away.');
 K.reg('tk_intro_w4s2','assets/voice/tk_intro_w4s2.mp3','I know how to take away! Count the pictures, then cross out the ones we take away.');
 K.reg('tk_intro_w4t2','assets/voice/tk_intro_w4t2.mp3','Now we take away twice. Some bees fly away, then some more fly away. Count what is left.');
 // W4 review two-beat intro: Gerry presents (own voice), then keeper reads the question.
-K.reg('gerry_w4s1','assets/voice/gerry_w4s1.mp3','Sometimes things fly away. Let\'s practice taking away!');
-K.reg('gerry_w4s2','assets/voice/gerry_w4s2.mp3','Let\'s take away some more together!');
-K.reg('gerry_w4t2','assets/voice/gerry_w4t2.mp3','This one takes two whole steps. Here we go!');
+K.reg('gerry_w4s1','assets/voice/gerry_w4s1.mp3?v=2','When a bee flies away, fewer are left. Flying away is taking away!');
+K.reg('gerry_w4s2','assets/voice/gerry_w4s2.mp3?v=2','When we sell a jar of honey, fewer are left. Selling is taking away too!');
+K.reg('gerry_w4t2','assets/voice/gerry_w4t2.mp3?v=2','First some fly away, then some more. We take away, then take away again!');
 K.reg('q_w4s1','assets/voice/q_w4s1.mp3','Count the pictures, then cross out the ones we take away.');
 K.reg('q_w4s2','assets/voice/q_w4s2.mp3','Count the pictures, then cross out the ones we take away.');
 K.reg('q_w4t2','assets/voice/q_w4t2.mp3','Some bees fly away, then some more fly away. Count what is left.');
-[[7,2],[7,1]].forEach(function(p){ const n=p[0],k=p[1]; K.reg('tk_eq_'+n+'_'+k,'assets/voice/tk_eq_'+n+'_'+k+'.mp3',SUBSAY(PRW(n,k),n,k)); });
-[[9,3,2],[8,2,2],[10,4,3]].forEach(function(p){ const n=p[0],a=p[1],b=p[2]; K.reg('tk_eq2_'+n+'_'+a+'_'+b,'assets/voice/tk_eq2_'+n+'_'+a+'_'+b+'.mp3',SUB2SAY(PRW(n,a+b),n,a,b)); });
 let act='one', roundIdx=0, score=0, locked=true, crossed=0, stage='cross';
 const box=$('box'), items=$('items'), nums=$('nums'), ans=$('ans');
 // The board used to be built BEFORE the intro, so the pictures and the boxed equation
@@ -2109,9 +2135,10 @@ function tapNum(btn){
   const seq=K.runSeq;
   K.later(()=>{ if(seq!==K.runSeq) return;
     const two = (A.mode==='two');
-    const key = two ? ('tk_eq2_'+f.a+'_'+f.b+'_'+f.c) : ('tk_eq_'+f.a+'_'+f.b);
-    const pr  = two ? PRW(f.a,f.b+f.c) : PRW(f.a,f.b);
-    const say = two ? SUB2SENT(f.a,f.b,f.c) : SUBSENT(f.a,f.b);
+    const s2  = A.sub2 || TAKE;
+    const key = two ? ('tk_eq2_'+s2.tag) : (A.sub ? SUBKEY(A.sub,f.b) : ('tk_eq_'+f.a+'_'+f.b));
+    const pr  = two ? TWO2PR(s2) : (A.sub ? SUBPR(f.b) : PRW(f.a,f.b));
+    const say = two ? SUB2SENT(s2) : SUBSENT(f.a,f.b,A.sub);
     K.celebrate(key, pr, say, ()=>{ roundIdx++; if(roundIdx<A.rounds.length) renderRound(); else K.endGame(A.rounds.length,score); }); },700);
 }
 function start(a){
@@ -2125,14 +2152,14 @@ function start(a){
   if(w4act){
     // Gerry presents, then the question is read VOICE-ONLY over the board (no picture).
     K.intro(
-      {voice:'gerry_'+act, still:'assets/b7w4/gerry_intro.png?v=2', video:'assets/b7w4/gerry_'+act+'.webm?v=2', est:4500},
+      {voice:'gerry_'+act, still:'assets/b7w4/gerry_intro.png?v=2', video:'assets/b7w4/gerry_'+act+'.webm?v=3', est:4500},
       ()=>{ renderRound(); K.later(()=>{ K.sayNode=K.stopSound(K.sayNode); K.sayNode=K.play('q_'+act); }, 450); });
   } else {
     const kOpts = {voice:A.intro.voice, text:A.intro.text, est:A.intro.est,
                    still: w3act ? 'assets/b7w3/keeper_bust_idle.png'
                         : w2act ? 'assets/b7w2/keeper_bust_idle.png?v=3'
-                                : 'assets/b7/keeper_bust_idle.png',
-                   video:(w3act?'assets/b7w3/':w2act?'assets/b7w2/':'assets/b7/')+'keeper_talk_'+act+'.webm?v=4'};
+                                : 'assets/b7/keeper_bust_idle.png?v=2',
+                   video:(w3act?'assets/b7w3/':w2act?'assets/b7w2/':'assets/b7/')+'keeper_talk_'+act+'.webm?v=7'};
     // The presenter alone carries the intro. The heroes are for the celebration animation.
     K.intro(kOpts, ()=>{ renderRound(); });
   }
@@ -2194,7 +2221,7 @@ function tapRule(btn){
 function start(){
   K.stopAll(); roundIdx=0; score=0; locked=true; K.buildStars(ROUNDS.length); K.litStars(0); K.preloadHeroes();
   renderRound(); locked=true;
-  K.intro({voice:'gd_intro', text:'Look at the garden pattern.<br>Which <b>rule</b> is it?', est:6000, still:'assets/b7/keeper_bust_idle.png', video:'assets/b7/keeper_talk_gd.webm?v=2'}, ()=>{ locked=false; });
+  K.intro({voice:'gd_intro', text:'Look at the garden pattern.<br>Which <b>rule</b> is it?', est:6000, still:'assets/b7/keeper_bust_idle.png?v=2', video:'assets/b7/keeper_talk_gd.webm?v=3'}, ()=>{ locked=false; });
 }
 window.GardenGame={ _lastAct:null, start(){ start(); }, stop(){ K.stopAll(); locked=true; if(window.Hub) Hub.silence(); } };
 K.wireNav(window.GardenGame);
@@ -2205,11 +2232,12 @@ K.wireNav(window.GardenGame);
 const K=makeBKit('fa'), $=K.$;
 const ROUNDS=[ {n:3,k:1}, {n:4,k:1}, {n:5,k:2}, {n:4,k:2} ];
 const PR=['Great job!','Excellent!','Amazing!','Wonderful!'];
-K.reg('fa_intro','assets/voice/fa_intro.mp3','Look! Bees are sitting on the flowers. Some bees fly home. How many bees are left?');
+K.reg('fa_intro','assets/voice/fa_intro.mp3?v=2','The bees fly home! When they fly away, fewer bees stay. That is taking away!');
 K.reg('fa_fly_1','assets/voice/fa_fly_1.mp3','One bee flies home.');
 K.reg('fa_fly_2','assets/voice/fa_fly_2.mp3','Two bees fly home.');
 K.reg('fa_ask','assets/voice/fa_ask.mp3','How many bees are left? Tap the number.');
-ROUNDS.forEach((r,i)=>K.reg('fa_eq_'+r.n+'_'+r.k,'assets/voice/tk_eq_'+r.n+'_'+r.k+'.mp3',SUBSAY(PRW(r.n,r.k),r.n,r.k)));
+// bees flying home is subtraction: share the action-aware "fly" celebration files
+ROUNDS.forEach((r,i)=>K.reg('fa_eq_'+r.n+'_'+r.k,'assets/voice/tk_eq_fly_'+r.k+'.mp3',SUBSAY(SUBPR(r.k),0,r.k,FLY)));
 let roundIdx=0, score=0, locked=true, stage='watch';
 const scene=$('scene'), nums=$('nums'), eq=$('eq'), ans=$('ans'), bubble=$('bubble');
 function renderRound(){
@@ -2246,12 +2274,12 @@ function tapNum(btn){
   ans.textContent=correct; ans.classList.add('filled');
   const seq=K.runSeq;
   K.later(()=>{ if(seq!==K.runSeq) return;
-    K.celebrate('fa_eq_'+r.n+'_'+r.k, PRW(r.n,r.k), SUBSENT(r.n,r.k), ()=>{ roundIdx++; if(roundIdx<ROUNDS.length) renderRound(); else K.endGame(ROUNDS.length,score); }); },700);
+    K.celebrate('fa_eq_'+r.n+'_'+r.k, SUBPR(r.k), SUBSENT(r.n,r.k,FLY), ()=>{ roundIdx++; if(roundIdx<ROUNDS.length) renderRound(); else K.endGame(ROUNDS.length,score); }); },700);
 }
 function start(){
   K.stopAll(); roundIdx=0; score=0; locked=true; K.buildStars(ROUNDS.length); K.litStars(0); K.preloadHeroes();
   scene.innerHTML=''; nums.innerHTML=''; eq.classList.remove('on'); bubble.classList.remove('on');
-  K.intro({voice:'fa_intro', text:'Look! Bees are on the flowers.<br>Some bees fly home.', est:7000, still:'assets/b7/keeper_bust_idle.png', video:'assets/b7/keeper_talk_fa.webm'}, ()=>{ renderRound(); });
+  K.intro({voice:'fa_intro', text:'Look! Bees are on the flowers.<br>Some bees fly home.', est:7000, still:'assets/b7/keeper_bust_idle.png?v=2', video:'assets/b7/keeper_talk_fa.webm?v=3'}, ()=>{ renderRound(); });
 }
 window.FlyGame={ _lastAct:null, start(){ start(); }, stop(){ K.stopAll(); locked=true; if(window.Hub) Hub.silence(); } };
 K.wireNav(window.FlyGame);
@@ -2435,7 +2463,7 @@ function start(a){
   if(w4act){
     // Gerry presents, then the question is read VOICE-ONLY over the board (no picture).
     K.intro(
-      {voice:'gerry_'+act, still:'assets/b7w4/gerry_intro.png?v=2', video:'assets/b7w4/gerry_'+act+'.webm?v=2', est:4500},
+      {voice:'gerry_'+act, still:'assets/b7w4/gerry_intro.png?v=2', video:'assets/b7w4/gerry_'+act+'.webm?v=3', est:4500},
       function(){ renderRound(); K.later(function(){ K.sayNode=K.stopSound(K.sayNode); K.sayNode=K.play('q_'+act); }, 450); });
   } else {
     K.intro(
@@ -2535,7 +2563,7 @@ function start(a){
   if(w4act){
     // Gerry presents, then the question is read VOICE-ONLY over the board (no picture).
     K.intro(
-      {voice:'gerry_'+act, still:'assets/b7w4/gerry_intro.png?v=2', video:'assets/b7w4/gerry_'+act+'.webm?v=2', est:4500},
+      {voice:'gerry_'+act, still:'assets/b7w4/gerry_intro.png?v=2', video:'assets/b7w4/gerry_'+act+'.webm?v=3', est:4500},
       function(){ renderRound(); K.later(function(){ K.sayNode=K.stopSound(K.sayNode); K.sayNode=K.play('q_'+act); }, 450); });
   } else {
     K.intro(
@@ -2602,13 +2630,12 @@ K.wireNav(window.BuildGame);
 const K=makeBKit('lf'), $=K.$;
 const ROUNDS=[ {n:5,k:3}, {n:6,k:3}, {n:7,k:4}, {n:8,k:4} ];
 const PR=['Great job!','Excellent!','Amazing!','Wonderful!'];
-K.reg('lf_intro','assets/voice/lf_intro.mp3','Look at the leaves on the tree! Some will fall down. Count the leaves that are left.');
+K.reg('lf_intro','assets/voice/lf_intro.mp3?v=2','The leaves fall down! When a leaf falls away, fewer are left. Take away!');
 K.reg('lf_ask','assets/voice/lf_ask.mp3','How many leaves are left? Tap the number.');
 K.reg('lf_fall_3','assets/voice/lf_fall_3.mp3','Three leaves fall down.');
 K.reg('lf_fall_4','assets/voice/lf_fall_4.mp3','Four leaves fall down.');
-// these four sentences are word-for-word the take-away ones (same praise word, same
-// numbers), so point at those files instead of recording them twice
-ROUNDS.forEach(function(r,i){ K.reg('lf_eq_'+r.n+'_'+r.k,'assets/voice/tk_eq_'+r.n+'_'+r.k+'.mp3',SUBSAY(PRW(r.n,r.k),r.n,r.k)); });
+// leaves falling is subtraction: share the action-aware "fall" celebration files
+ROUNDS.forEach(function(r,i){ K.reg('lf_eq_'+r.n+'_'+r.k,'assets/voice/tk_eq_fall_'+r.k+'.mp3',SUBSAY(SUBPR(r.k),0,r.k,FALL)); });
 let roundIdx=0, score=0, locked=true;
 const scene=$('scene'), nums=$('nums'), eq=$('eq'), ans=$('ans'), bubble=$('bubble');
 function renderRound(){
@@ -2649,12 +2676,12 @@ function pick(btn,r){
   [].slice.call(nums.children).forEach(function(b){ b.classList.add('dim'); });
   const seq=K.runSeq, i=roundIdx;
   K.later(function(){ if(seq!==K.runSeq) return;
-    K.celebrate('lf_eq_'+r.n+'_'+r.k, PRW(r.n,r.k), SUBSENT(r.n,r.k),
+    K.celebrate('lf_eq_'+r.n+'_'+r.k, SUBPR(r.k), SUBSENT(r.n,r.k,FALL),
       function(){ roundIdx++; if(roundIdx<ROUNDS.length) renderRound(); else K.endGame(ROUNDS.length,score); }); },640);
 }
 function start(){
   K.stopAll(); roundIdx=0; score=0; locked=true; K.buildStars(ROUNDS.length); K.litStars(0); K.preloadHeroes();
-  K.intro({voice:'lf_intro', text:'Look at the leaves on the tree!<br>Some will fall down.<br>Count the leaves that are left.', est:6900, still:'assets/b7w2/keeper_bust_idle.png?v=3', video:'assets/b7w2/keeper_talk_lf.webm?v=3'}, function(){ renderRound(); });
+  K.intro({voice:'lf_intro', text:'Look at the leaves on the tree!<br>Some will fall down.<br>Count the leaves that are left.', est:6900, still:'assets/b7w2/keeper_bust_idle.png?v=3', video:'assets/b7w2/keeper_talk_lf.webm?v=4'}, function(){ renderRound(); });
 }
 window.LeafGame={ _lastAct:null, start(){ start(); }, stop(){ K.stopAll(); locked=true; if(window.Hub) Hub.silence(); } };
 K.wireNav(window.LeafGame);

@@ -1254,6 +1254,204 @@
   /* the 7-card ky pool fits one row by construction (max 1324px in a 1620px table) */
   #ky_app .kyPool{flex-wrap:nowrap;max-width:none;width:max-content;}
 /* ==== end PROPORTION-PASS B7 ==== */
+  /* ==== THUMBNAIL / MARGIN FIX (9/15, William: "i menat the thumbnail" + "there are too
+     much margin so increase the size of the thumbnaiil" + "do the same with other videos
+     there"): the concept picker's tile grows height-bound to dominate the stage (bare
+     full-bleed thumb, aspect kept), title+padding slimmed; the hub's two video tiles
+     (Math Literature fairytaleThumb, videos-card art) gain headroom too. ==== */
+  .conceptShell{width:98vw;max-width:none;height:min(97vh,97dvh);padding:3.2vh 1vw 1vh;gap:0.4vh;}
+  .conceptTitle{font-size:clamp(18px,3.2vh,30px);}
+  .conceptPick{width:auto;max-width:96%;height:96%;max-height:none;aspect-ratio:16/9.9;}
+  .conceptPick .conceptThumbWrap{flex:1 1 0;min-height:0;width:100%;}
+  .conceptPick .conceptThumbWrap > img{width:100%;height:100%;object-fit:contain;display:block;border-radius:18px;}
+  .conceptPick span:not(.conceptThumbWrap){font-size:clamp(14px,2.2vh,20px);white-space:nowrap;
+    overflow:hidden;text-overflow:ellipsis;max-width:100%;}
+  @media (max-height:520px){
+    /* 67% universal tile standard (William: "i like the 67% of the stage") - on short
+       screens the picker title folds (the hub card the child just tapped names this
+       screen; Home stays); the tile takes the reclaimed height. */
+    .conceptShell{padding:1.2vh 1vw 0.8vh;gap:0.2vh;}
+    .conceptTitle{display:none;}
+    .conceptPick{height:98%;}
+    .conceptPick span:not(.conceptThumbWrap){display:none;}
+  }
+  .hubCard[data-idx="4"] .hubCardArt{padding:2px 3px;}
+  .hubCard[data-idx="4"] .fairytaleThumb img{max-height:min(100%,46vh);}
+  .hubCard[data-idx="0"] .hubBtn.videoPlay img{max-height:min(100%,46vh);}
+  /* ==== RIDER (separately toggleable, William yes/no pending): the PLAYING video fills
+     the screen - shells grow, title folds while playing, players letterbox via
+     object-fit. Toggle = the VIDFILL const in the script (one line). ==== */
+  body.vidFill .vidShell{width:98vw;max-width:none;height:min(96vh,96dvh);padding:5vh 1vw 1.5vh;}
+  body.vidFill .vidShell.is-playing .vidTitle{display:none;}
+  body.vidFill .vidShell.is-playing{padding-top:2vh;}
+  body.vidFill .conceptShell.is-watching .conceptTitle{display:none;}
+  body.vidFill .conceptShell.is-watching{padding-top:2vh;}
+  body.vidFill #v_player,body.vidFill #c_player{width:100%!important;height:100%!important;
+    max-width:100%;max-height:100%;object-fit:contain;object-position:center;aspect-ratio:auto!important;}
+  /* ==== MATH-LIT CHAPTER PLAY BAR (9/15): jump between the six parts; code UI ==== */
+  #v_chapters{display:flex;gap:1vh;justify-content:center;align-items:stretch;width:100%;
+    padding:0.8vh 0 0.2vh;flex:none;z-index:8;}
+  #v_chapters[hidden]{display:none;}
+  .vChap{position:relative;overflow:hidden;flex:1 1 0;max-width:20vh;min-height:7.4vh;
+    border:0.45vh solid #f9a021;border-radius:2.2vh;background:#fff;cursor:pointer;
+    font-family:'Baloo';color:#7a4a1c;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;gap:0.2vh;padding:0.6vh 0.9vh;
+    box-shadow:0 0.5vh 0 rgba(212,132,42,.25);transition:transform .12s ease;}
+  .vChap .vChapIc{font-size:2.7vh;line-height:1;z-index:2;pointer-events:none;}
+  .vChap .vChapLb{font-size:1.9vh;line-height:1.1;z-index:2;white-space:nowrap;pointer-events:none;}
+  .vChap .vChapFill{position:absolute;left:0;top:0;bottom:0;width:0;background:#ffe2b8;
+    z-index:1;transition:width .25s linear;pointer-events:none;}
+  .vChap.on{border-color:#e0424f;box-shadow:0 0.5vh 0 rgba(224,66,79,.3);transform:translateY(-0.3vh);}
+  .vChap:active,.vChap.is-pressing{transform:translateY(0.2vh);}
+  .vChapAll{position:relative;flex:0 0 auto;min-height:7.4vh;padding:0.6vh 1.6vh;
+    border:0.45vh solid #2e9e57;border-radius:2.2vh;background:#3fbf6a;color:#fff;cursor:pointer;
+    font-family:'Baloo';display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:0.2vh;box-shadow:0 0.5vh 0 rgba(30,120,60,.45);transition:transform .12s ease;}
+  .vChapAll .vChapIc{font-size:2.4vh;line-height:1;pointer-events:none;}
+  .vChapAll .vChapLb{font-size:1.9vh;line-height:1.1;white-space:nowrap;pointer-events:none;}
+  .vChapAll:active{transform:translateY(0.2vh);}
+  .vChap.ended::after{content:'\21BB';position:absolute;right:0.5vh;top:0.3vh;z-index:3;
+    font-size:2.2vh;color:#e0424f;font-family:'Baloo';}
+  .vChap.ended{border-color:#e0424f;}
+  /* ==== B PLAY KIT (9/15): A's shipped kit as the template - GP textbook ground
+     (Amendment 17), tap-band cards, nowrap pool with a two-row mode for big pools,
+     Take Away! field, Pattern Blocks stage. ==== */
+  #ky_app,#kt_app,#pb_app{background-color:#fefaf4;
+    background-image:linear-gradient(#eeece7 1px,transparent 1px),linear-gradient(90deg,#eeece7 1px,transparent 1px);
+    background-size:2.9cqh 2.9cqh;}
+  #ky_app .kyTable,#kt_app .kyTable,#pb_app .kyTable{background:transparent;border:none;box-shadow:none;border-radius:0;}
+  #ky_app .kyLbl,#kt_app .kyLbl,#pb_app .kyLbl{color:#28211c;text-shadow:none;font-size:2.5cqh;}
+  .kyKeyImg{display:block;height:6.4cqh;width:auto;max-width:96%;margin:0 auto;}
+  #ky_app .kySlot{border:none;background:url(assets/kyogu/answer_box.png?v=1) center/100% 100% no-repeat;}
+  #ky_app .kySlot .kyCard{width:82%;height:80%;border-width:0.35cqh;box-shadow:none;}
+  #ky_app .kyPool .kyCard{width:15cqh;height:14cqh;}
+  #ky_app .kyPool{flex-wrap:nowrap;max-width:none;width:max-content;padding-left:1cqh;padding-right:1cqh;}
+  #ky_app.kyBig .kyPool{flex-wrap:wrap;width:auto;max-width:88cqh;justify-content:center;}
+  #ky_app.kyBig .kyRow:not(.kyPool) .kyCard,#ky_app.kyBig .kySlot{width:11.5cqh;height:10.6cqh;}
+  #ky_app .kyRow:not(.kyPool) .kyCard,#ky_app .kySlot{width:13.5cqh;height:12.5cqh;}
+  #ky_app .kyRow:not(.kyPool) .kyCard img{max-width:10.4cqh;max-height:9cqh;}
+  .kyGhost{position:fixed;z-index:99;pointer-events:none;transform:translate(-50%,-55%);opacity:.9;}
+  .kyCard.dragging{opacity:.35;}
+  /* Take Away! */
+  #kt_app .ktField{display:flex;flex-wrap:wrap;gap:1.2cqh;justify-content:center;max-width:76%;margin:0.6cqh auto;}
+  #kt_app .ktObj{position:relative;width:11.5cqh;height:11.5cqh;background:#fff;border:0.45cqh solid #f9a021;
+    border-radius:1.6cqh;display:flex;align-items:center;justify-content:center;cursor:pointer;
+    box-shadow:0 0.4cqh 0 rgba(212,132,42,.2);}
+  #kt_app .ktObj img{max-width:8.6cqh;max-height:8.6cqh;}
+  #kt_app .ktObj.gone img{opacity:.45;}
+  #kt_app .ktX{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-family:'Baloo';font-size:9cqh;color:#e03030;line-height:1;pointer-events:none;
+    text-shadow:0 0 2px #fff;}
+  #kt_app .ktX[hidden]{display:none;}
+  #kt_app .ktEq{display:flex;gap:1.4cqh;align-items:center;justify-content:center;margin:0.8cqh 0 0.4cqh;
+    font-family:'Baloo';font-size:6.5cqh;color:#28211c;opacity:.25;transition:opacity .25s ease;}
+  #kt_app .ktEq.on{opacity:1;}
+  #kt_app .ktAns{min-width:8cqh;border-bottom:0.6cqh solid #e03030;text-align:center;color:#e03030;}
+  #kt_app .kyPool{flex-wrap:nowrap;max-width:none;width:max-content;opacity:.25;transition:opacity .25s ease;margin:0 auto;}
+  #kt_app .kyPool.on{opacity:1;}
+  #kt_app .kyPool .kyCard{width:13cqh;height:13cqh;display:flex;align-items:center;justify-content:center;}
+  #kt_app .kyNum{font-family:'Baloo';font-size:7.5cqh;color:#28211c;}
+  /* Pattern Blocks */
+  #pb_app .pbTracker{display:flex;gap:1cqh;justify-content:center;align-items:center;margin:0.2cqh 0 0.4cqh;}
+  #pb_app .pbTk{width:7cqh;height:5.4cqh;border:0.3cqh solid #e8d9bd;border-radius:1cqh;background:#fff;
+    display:flex;align-items:center;justify-content:center;opacity:.55;padding:0.3cqh;}
+  #pb_app .pbTk svg{max-width:100%;max-height:100%;}
+  #pb_app .pbTk.cur{opacity:1;border-color:#f9a021;box-shadow:0 0 0.7cqh rgba(249,160,33,.5);}
+  #pb_app .pbTk.done{opacity:.9;border-color:#3caa50;}
+  #pb_app .pbStageWrap{position:relative;display:flex;align-items:center;justify-content:center;margin:0 auto;}
+  #pb_app .pbStage{height:26cqh;width:auto;max-width:70%;}
+  #pb_app .pbStage .pbSlot{fill:#fff;stroke:#b9a98e;stroke-width:2.5;stroke-dasharray:7 5;cursor:pointer;}
+  #pb_app .pbStage .pbSlot.filled{stroke:#222;stroke-dasharray:none;}
+  #pb_app .pbCheck{position:absolute;right:-7cqh;top:50%;transform:translateY(-50%);width:7.5cqh;height:7.5cqh;
+    border:0.25cqh solid #d8ccb4;border-radius:1cqh;background:#fff;display:flex;align-items:center;justify-content:center;padding:0.6cqh;}
+  #pb_app .pbCheck svg{max-width:100%;max-height:100%;}
+  #pb_app .kyPool{flex-wrap:nowrap;max-width:none;width:max-content;margin:0 auto;}
+  #pb_app.pbBig .kyPool{flex-wrap:wrap;width:auto;max-width:72cqh;justify-content:center;}
+  #pb_app.pbBig .pbStage{height:20cqh;}
+  #pb_app.pbBig .kyPool .kyCard.pbPiece{width:11cqh;height:10.5cqh;}
+  #pb_app .kyPool .kyCard.pbPiece{width:12.5cqh;height:12cqh;background:#fff;display:flex;align-items:center;justify-content:center;padding:0.5cqh;}
+  #pb_app .kyPool .kyCard.pbPiece svg{max-width:100%;max-height:100%;}
+  #pb_app #pb_key{font-family:'Baloo';font-size:2.9cqh;color:#28211c;text-align:center;}
+  #pb_app .pbSayShape{height:9cqh;width:auto;vertical-align:middle;margin-right:1cqh;}
+  #ky_app .kyKey,#kt_app .kyKey{margin:0.2cqh 0 0.3cqh;text-align:center;}
+  /* ==== TEACHER VIDEO SIZE OPTION (9/15): Fill / Fit button on both video screens ==== */
+  .vidSizeBtn{position:absolute;right:1.2vh;top:1.2vh;z-index:26;height:5vh;padding:0 1.4vh 0 1vh;border:none;border-radius:14px;
+    background:#fff;box-shadow:0 3px 0 rgba(224,66,79,.35);cursor:pointer;display:flex;align-items:center;gap:0.8vh;
+    font-family:'Baloo';font-size:2.4vh;color:var(--red,#e0424f);}
+  .vidSizeBtn svg{width:2.8vh;height:2.8vh;stroke:var(--red,#e0424f);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+  .vidSizeBtn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(224,66,79,.3);}
+  .conceptShell .vidSizeBtn{right:0;top:0;}
+
+/* ==== LAYOUT CLIP FIX 2026-09-16 (William QA): take stack fits its board at every counter count; fly bees sit inside the scene ==== */
+  #tk_app .tkBox{padding-top:2cqh;padding-bottom:2cqh;gap:1.6cqh;}
+  #tk_app .tkWrap{gap:1.2cqh;}
+  #tk_app .tkItems[data-n="4"] .tkItem,#tk_app .tkItems[data-n="5"] .tkItem{width:15cqh;height:15cqh;}
+  #tk_app .tkItems[data-n="9"] .tkItem,#tk_app .tkItems[data-n="10"] .tkItem{width:10cqh;height:10cqh;}
+  #tk_app .tkItems[data-n="9"],#tk_app .tkItems[data-n="10"]{gap:1.4cqh 2.6cqh;}
+  #tk_app .tkNum{width:16cqh;height:16cqh;}
+  #tk_app .tkEq{font-size:6.4cqh;padding:0.6cqh 3cqh;}
+  #tk_app .tkEq .ansBox{width:9.5cqh;height:9.5cqh;font-size:7cqh;}
+  .faScene{height:32cqh;flex-shrink:0;}
+  #fa_app .faNum{width:16cqh;height:16cqh;}
+
+  /* ==== KAKAO FIX 2026-09-20 (GP손부장님 via William): (a) the concept caption WRAPS instead of being
+     ellipsised - measured 747px of text in a 380px box at 412x915 - and is shown, smaller, on short screens
+     instead of hidden; (c) the week picker fits phone LANDSCAPE, where the cards used to run 114px below the
+     fold because they are sized from width. Cascade-last, layout only. ==== */
+  /* flex:none - the caption is a flex item in the tile; without it the box is shrunk below the
+     wrapped text and the second line spills out of its own box */
+  .conceptPick span:not(.conceptThumbWrap){white-space:normal;overflow:visible;text-overflow:clip;
+    max-width:100%;line-height:1.22;flex:0 0 auto;}
+  @media (max-height:520px){
+    .conceptPick span:not(.conceptThumbWrap){display:block;font-size:clamp(11px,2.5vh,15px);line-height:1.18;}
+  }
+  @media (max-height:560px) and (orientation:landscape){
+    /* the screen is the height budget: header shrinks, the row takes the rest and the cards size from it */
+    #weeks{justify-content:flex-start;gap:clamp(6px,1.2vh,12px);
+      padding:clamp(6px,1.4vh,14px) clamp(10px,2vw,24px) clamp(8px,1.6vh,16px);}
+    .weeksHeader{gap:4px;flex-direction:row;align-items:center;justify-content:center;flex-wrap:wrap;}
+    .weeksLogo{width:clamp(44px,9vh,64px);margin-bottom:0;}
+    .weeksLevel{font-size:clamp(12px,2.6vh,16px);padding:4px 14px;}
+    .weeksTitle{font-size:clamp(17px,4.4vh,26px);line-height:1;}
+    .siteHomeBtn{font-size:clamp(11px,2.4vh,15px);padding:.35em 1em;flex:none;}
+    /* nowrap/max-width also undo the narrow-screen 2x2 wrap, which on a SHORT landscape screen
+       (e.g. 667x375) stacks two rows of 140px-min cards and overflows just as badly */
+    .weeksRow{flex:1 1 auto;min-height:0;align-items:center;flex-wrap:nowrap;max-width:none;
+      padding:clamp(4px,1vh,10px) 4px clamp(6px,1.2vh,12px);gap:clamp(8px,1.6vw,18px);}
+    .weekBtn{flex:0 1 auto;width:auto;height:100%;max-width:none;max-height:100%;aspect-ratio:3/4;min-height:0;
+      padding:8px 8px 10px;border-radius:24px;gap:2px;}
+    .weekNum{font-size:clamp(18px,5vh,30px);}
+    .weekLabel{font-size:clamp(11px,2.6vh,16px);}
+  }
+/* ==== HUB ON A SIDEWAYS PHONE (William 2026-09-21: "when using on the phone, the menu buttons on the menu hub get squished
+   and lose their proper ratio"). Measured 844x390: the centre card was 460x242 (aspect 1.9; desktop 1.03) and it covered the
+   week title and overlapped All Weeks, because `.hubCard{width:min(460px,70vw);height:min(62vh,540px);aspect-ratio:1/1.05}`
+   fixes BOTH dimensions (so aspect-ratio never applies) and the hub column only had a min-height. In short landscape ONLY:
+   the hub gets a definite height, the header and the dots/All-Weeks footer fold into single rows (as the 9/20 week-picker fix
+   did), and the card takes the stage's height with the DESKTOP shape (460/446). Above 560 px of height nothing here applies. ==== */
+@media (max-height:560px) and (orientation:landscape){
+  #hub{height:100vh;height:100dvh;min-height:0;}
+  #hub .hubHeader{flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:center;gap:0 12px;}
+  #hub .hubLogo{width:clamp(44px,12vh,60px);margin-bottom:0;}
+  #hub .hubWeekTitle{font-size:clamp(20px,6.4vh,28px);line-height:1.05;}
+  #hub .hubWeekSub{flex-basis:100%;text-align:center;font-size:clamp(12px,3.6vh,16px);margin-top:0;line-height:1.1;}
+  #hub .hubStage{min-height:0;}
+  #hub .hubTrack{min-height:0;height:100%;}
+  #hub .hubCard{height:100%;max-height:100%;width:auto;min-width:0;aspect-ratio:460/446;}
+  #hub .hubNav{flex-direction:row;gap:18px;margin-top:10px;padding-bottom:0;}   /* 10px: the card's 3-D lip must not touch All Weeks */
+  #hub .hubAllWeeks{padding:8px 20px;min-height:44px;}
+}
+/* ==== end HUB ON A SIDEWAYS PHONE ==== */
+/* ==== DEAD MENU TILE (2026-09-22): a menu with two options showed a third, dead "Activity 3" tile - the hidden attribute was
+   defeated by .actPickBtn{display:flex}. A7 has had this rule since the third tile was introduced; B7/C7 never got it. ==== */
+.actPickBtn[hidden]{display:none!important;}
+/* ==== FLY STACK FIT (2026-09-22): the 9/16 scene + number sizes overfilled the board - the number row was crushed, its buttons
+   overlapped the equation box and were cut by the panel at the pulse peak. The scene keeps 32cqh; the rest is trimmed to fit. ==== */
+#fa_app .board{gap:1.2cqh;}
+#fa_app .faEq{font-size:6.4cqh;padding:0.6cqh 3cqh;}
+#fa_app .faEq .ansBox{width:9cqh;height:9cqh;font-size:6.6cqh;}
+#fa_app .faNum{width:13.5cqh;height:13.5cqh;font-size:7.8cqh;}
+#fa_app .faNums{min-height:14.3cqh;flex-shrink:0;}
 </style>
 </head>
 <body>
@@ -1345,6 +1543,14 @@
         </div>
         <div class="hubActions"></div>
       </article>
+      <!-- PLAY KIT (W4 교구): the LAST hub card, Week-4 only - B bee world -->
+      <article class="hubCard" data-idx="5" data-week="4">
+        <div class="hubCardTitle">Play Kit</div>
+        <button type="button" class="hubCardArt" data-launch="actPick" data-act="kit" aria-label="Open Play Kit">
+          <img src="assets/hub_play_kit.png?v=1" alt="Play Kit">
+        </button>
+        <div class="hubActions"></div>
+      </article>
     </div>
     <button class="hubArrow" id="hubNext" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
   </div>
@@ -1361,6 +1567,7 @@
 <div class="game g-video" id="screen-video">
   <div class="vidShell">
     <button id="v_homeBtn" title="Back"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+    <button type="button" class="vidSizeBtn" aria-label="Video size"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/></svg><span class="lbl">Fill</span></button>
     <div class="vidTitle" id="v_title">Video</div>
     <div class="vidStage">
       <video id="v_player" playsinline preload="metadata"></video>
@@ -1369,6 +1576,7 @@
       </button>
       <div id="v_missing">Video coming soon — add the file to the assets folder.</div>
     </div>
+    <div id="v_chapters" hidden></div>
     <button type="button" id="v_playPause" class="vidToggle" aria-label="Play or pause video">
       <svg class="ic ic-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
       <svg class="ic ic-pause" viewBox="0 0 24 24"><path d="M7 5h3.4v14H7z M13.6 5H17v14h-3.4z"/></svg>
@@ -1390,6 +1598,10 @@
         <span class="playIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 6.8v10.4L18 12 9 6.8z"/></svg></span>
         <span class="actPickLabel">Activity 2</span>
       </button>
+      <button type="button" class="actPickBtn" id="ap_btn3" data-slot="3" aria-label="Activity 3" hidden>
+        <span class="playIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 6.8v10.4L18 12 9 6.8z"/></svg></span>
+        <span class="actPickLabel">Activity 3</span>
+      </button>
     </div>
   </div>
 </div>
@@ -1398,6 +1610,7 @@
   <div class="conceptShell">
     <button id="c_homeBtn" title="Menu"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></button>
     <button id="c_backBtn" title="Back"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+    <button type="button" class="vidSizeBtn" aria-label="Video size"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/></svg><span class="lbl">Fill</span></button>
     <div class="conceptTitle">Math Literacy Videos</div>
     <div class="conceptStage" id="c_stage">
       <!-- The week's two concept films play back to back as one video, so the picker
@@ -1746,7 +1959,7 @@
     <div class="head">
       <div class="ribbon" id="ky_ribbon">Copy the Pattern</div>
       <div class="bq"><div class="pre" id="ky_qPre">Look at the <b>pattern</b>.</div><div class="ask" id="ky_qAsk">Build the <b>same pattern</b> with your cards. Some cards do <b>not</b> belong!</div></div>
-      <div class="kyKey">&ldquo;Let&rsquo;s play with <b>patterns</b>.&rdquo;</div>
+      <div class="kyKey"><img class="kyKeyImg" src="assets/kyogu/sentence_pattern.png?v=1" alt="Let's play with patterns."></div>
     </div>
     <div class="bstars" id="ky_stars"></div>
     <div class="board">
@@ -1784,6 +1997,99 @@
       <div class="endBtns">
         <button id="ky_againBtn" class="btn">Play again</button>
         <button id="ky_endHomeBtn" class="btn home">Home</button>
+      </div>
+    </div>
+  </div></div>
+</div></div>
+
+<div class="game g-b" id="screen-kt"><div id="kt_app" class="bgame orange">
+  <div class="panel"><div class="pad">
+    <div class="title" id="kt_title">Take Away!</div>
+    <div class="head">
+      <div class="ribbon" id="kt_ribbon">Numbers</div>
+      <div class="bq"><div class="pre" id="kt_qPre">Read the number sentence.</div><div class="ask" id="kt_qAsk">Tap the ones to <b>take away</b>, then pick the answer!</div></div>
+      <div class="kyKey" id="kt_key"><img class="kyKeyImg" src="assets/kyogu/sentence_books.png?v=1" alt=""></div>
+    </div>
+    <div class="bstars" id="kt_stars"></div>
+    <div class="board">
+      <div class="kyTable">
+        <div class="ktField" id="kt_field"></div>
+        <div class="ktEq" id="kt_eq"></div>
+        <div class="kyRow kyPool" id="kt_pool"></div>
+      </div>
+    </div>
+    <div class="shadow L"></div><div class="shadow R"></div>
+    <img id="kt_heroLImg" class="hero L" src="assets/b7/keeper_idle.png" alt="">
+    <img id="kt_heroRImg" class="hero R" src="assets/b7/girl_idle.png" alt="">
+    <video id="kt_heroLVid" class="hero L" src="assets/b7/keeper_cheer.webm" muted playsinline preload="none"></video>
+    <video id="kt_heroRVid" class="hero R" src="assets/b7/girl_jump.webm" muted playsinline preload="none"></video>
+    <div id="kt_sentence" class="sentence"></div>
+    <button id="kt_homeBtn" class="homeBtn" title="Home" aria-label="Home"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></button>
+    <button id="kt_backBtn" class="backBtn" title="Back" aria-label="Previous page"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+    <div id="kt_intro" class="intro">
+      <div class="introCard">
+        <div class="introBubble" id="kt_introText"></div>
+        <div class="introChar" id="kt_introChar">
+          <img id="kt_introImg" src="assets/b7/keeper_bust_idle.png?v=2" alt="">
+          <video id="kt_introVid" muted playsinline preload="none"></video>
+        </div>
+        <div class="introHint">Tap to continue</div>
+      </div>
+    </div>
+    <div id="kt_end" class="end">
+      <video id="kt_fw" class="fw" src="assets/fireworks_end_alpha.webm?v=15" muted playsinline preload="none"></video>
+      <h1>You did it!</h1>
+      <div id="kt_endStars" class="endStars"></div>
+      <div class="endBtns">
+        <button id="kt_againBtn" class="btn">Play again</button>
+        <button id="kt_endHomeBtn" class="btn home">Home</button>
+      </div>
+    </div>
+  </div></div>
+</div></div>
+
+<div class="game g-b" id="screen-pb"><div id="pb_app" class="bgame orange">
+  <div class="panel"><div class="pad">
+    <div class="title" id="pb_title">Pattern Blocks</div>
+    <div class="head">
+      <div class="ribbon" id="pb_ribbon">Build the Honeycomb</div>
+      <div class="bq"><div class="pre" id="pb_pre">Make the shape!</div><div class="ask" id="pb_ask">Drag the blocks into the outline.</div></div>
+      <div class="kyKey" id="pb_key"></div>
+    </div>
+    <div class="bstars" id="pb_stars"></div>
+    <div class="board">
+      <div class="kyTable">
+        <div class="pbTracker" id="pb_tracker"></div>
+        <div class="pbStageWrap"><svg class="pbStage" id="pb_stage" viewBox="0 0 420 220" aria-label="shape outline"></svg><div class="pbCheck" id="pb_check"></div></div>
+        <div class="kyLbl" id="pb_poolLbl">Drag the blocks!</div>
+        <div class="kyRow kyPool" id="pb_pool"></div>
+      </div>
+    </div>
+    <div class="shadow L"></div><div class="shadow R"></div>
+    <img id="pb_heroLImg" class="hero L" src="assets/b7/keeper_idle.png" alt="">
+    <img id="pb_heroRImg" class="hero R" src="assets/b7/girl_idle.png" alt="">
+    <video id="pb_heroLVid" class="hero L" src="assets/b7/keeper_cheer.webm" muted playsinline preload="none"></video>
+    <video id="pb_heroRVid" class="hero R" src="assets/b7/girl_jump.webm" muted playsinline preload="none"></video>
+    <div id="pb_sentence" class="sentence"></div>
+    <button id="pb_homeBtn" class="homeBtn" title="Home" aria-label="Home"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></button>
+    <button id="pb_backBtn" class="backBtn" title="Back" aria-label="Previous page"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+    <div id="pb_intro" class="intro">
+      <div class="introCard">
+        <div class="introBubble" id="pb_introText"></div>
+        <div class="introChar" id="pb_introChar">
+          <img id="pb_introImg" src="assets/b7/keeper_bust_idle.png?v=2" alt="">
+          <video id="pb_introVid" muted playsinline preload="none"></video>
+        </div>
+        <div class="introHint">Tap to continue</div>
+      </div>
+    </div>
+    <div id="pb_end" class="end">
+      <video id="pb_fw" class="fw" src="assets/fireworks_end_alpha.webm?v=15" muted playsinline preload="none"></video>
+      <h1>You did it!</h1>
+      <div id="pb_endStars" class="endStars"></div>
+      <div class="endBtns">
+        <button id="pb_againBtn" class="btn">Play again</button>
+        <button id="pb_endHomeBtn" class="btn home">Home</button>
       </div>
     </div>
   </div></div>
@@ -1834,6 +2140,20 @@
 </div></div>
 
 <script>
+// RIDER toggle (William yes/no pending): true = the playing video fills the screen.
+// The thumbnail/margin fix above in CSS is UNCONDITIONAL; only the player behavior rides here.
+(function(){   // teacher-facing video SIZE option: Fill (default) / Fit, remembered per device
+  var pref=null; try{ pref=localStorage.getItem('gpVidSize'); }catch(e){}
+  var fill = pref ? pref==='fill' : true;
+  document.body.classList.toggle('vidFill', fill);
+  window.gpVidSize={
+    set:function(f){ fill=!!f; document.body.classList.toggle('vidFill', fill); try{ localStorage.setItem('gpVidSize', fill?'fill':'fit'); }catch(e){} this.paint(); },
+    toggle:function(){ this.set(!fill); },
+    paint:function(){ document.querySelectorAll('.vidSizeBtn').forEach(function(b){ b.classList.toggle('is-fill', fill); b.setAttribute('aria-label', fill?'Video size: Fill. Tap for Fit':'Video size: Fit. Tap for Fill'); b.querySelector('.lbl').textContent=fill?'Fill':'Fit'; }); }
+  };
+  document.addEventListener('DOMContentLoaded', function(){ window.gpVidSize.paint();
+    document.querySelectorAll('.vidSizeBtn').forEach(function(b){ b.addEventListener('click', function(){ window.gpVidSize.toggle(); }); }); });
+})();
 /* ===== Level B-7 Week 1 — shared game kit (audio, stars, heroes, intro, celebration, end) ===== */
 const B7={
   bee:{src:'assets/b7/bee.png',name:'bee',plural:'bees'},
@@ -1925,9 +2245,27 @@ function makeBKit(pfx){
     const txt=(K.SFX[name]&&K.SFX[name].fallbackText)||'';
     const spoken=txt?Math.ceil(txt.trim().split(/\s+/).length/2.2*1000)+1600:0;
     if(K.sayNode){ K.sayNode.addEventListener('ended',()=>K.later(fin,250),{once:true});
-      const d=K.sayNode.duration;
-      K.later(fin,(typeof d==='number'&&isFinite(d)&&d>0.5)?(d*1000+900):Math.max(est||0,spoken,7000)); }
+      const n=K.sayNode; let g=null;
+      // backstop only (the 'ended' listener above is the real finish): sized to what is LEFT to play and re-armed as the
+      // clip loads and plays, so a line whose duration was not yet known is never cut mid-sentence
+      const arm=()=>{ if(done) return; if(g!=null) clearTimeout(g); const d=n.duration, t=n.currentTime||0;
+        g=K.later(fin,(typeof d==='number'&&isFinite(d)&&d>0.5)?(Math.max(0,d-t)*1000+1500):Math.max(est||0,spoken,12000)); };
+      n.addEventListener('loadedmetadata',arm); n.addEventListener('durationchange',arm); n.addEventListener('timeupdate',arm); arm(); }
     else K.later(fin,Math.max(est||0,spoken,4500)); };
+
+  // THE QUESTION IS ALWAYS HEARD (William 09-16). K.ask reads it; until it has ended, taps on the board are swallowed
+  // (navigation excepted) so no answer can cut it off. Every game unlocks in K.ask's callback.
+  K.asking=false;
+  (function(){ const root=document.getElementById(pfx+'_app'); if(!root) return;
+    const NAV='[id$=_homeBtn],[id$=_backBtn],[id$=_againBtn],[id$=_endHomeBtn],.homeBtn,.backBtn,.vidSizeBtn,.intro,#k_nextBtn';
+    const swallow=e=>{ if(!K.asking) return; const t=e.target; if(t&&t.closest&&t.closest(NAV)) return;
+      e.stopPropagation(); e.preventDefault(); };
+    ['pointerdown','click'].forEach(tp=>root.addEventListener(tp, swallow, true)); })();
+  K.ask=function(name,cb,est){ const seq=K.runSeq; K.asking=true;
+    let done=false; const fin=()=>{ if(done) return; done=true; if(seq!==K.runSeq) return; K.asking=false; cb&&cb(); };
+    K.say(name, fin, est);
+    K.later(fin, (est||6000)+9000);   // last-resort release if neither 'ended' nor K.say's own guard ever fires
+    return K.sayNode; };
   K.buildStars=function(n){ $('stars').innerHTML=Array.from({length:n},()=>'<svg class="st" viewBox="0 0 24 24"><path d="'+STAR+'"/></svg>').join(''); };
   K.litStars=function(n){ [...$('stars').children].forEach((s,i)=>s.classList.toggle('on',i<n)); };
   // heroes: keeper LEFT, girl RIGHT; real-motion clips if present, else a CSS hop
@@ -1958,7 +2296,8 @@ function makeBKit(pfx){
     introVid.style.opacity='0'; introImg.style.opacity='1';
     if(o.still) introImg.src=o.still;
     let finished=false, decided=false;
-    const finish=()=>{ if(finished||seq!==K.runSeq) return; finished=true; introDone=null;
+    const finish=(why)=>{ if(finished||seq!==K.runSeq) return; finished=true; introDone=null;
+      const reask = why==='tap' && o.question && o.voice;   // the presenter WAS the question: read it again
       introChar.classList.remove('talking');
       try{introVid.pause(); introVid.onended=null; introVid.ondurationchange=null;
           introVid.onloadedmetadata=null; introVid.ontimeupdate=null;}catch(e){}
@@ -1973,14 +2312,14 @@ function makeBKit(pfx){
         // leave the element ready for the next intro -- these inline styles persist,
         // and a stale opacity:1 on a src-less <video> paints a black box
         introVid.style.opacity='0'; introImg.style.opacity='1';
-        onDone&&onDone(); }, 360); };
+        if(reask) K.ask(o.voice, onDone, o.est); else onDone&&onDone(); }, 360); };
     introDone=finish;
     // The safety net that ends the intro if nothing else does. It is declared out here
     // because BOTH paths need it: the video arms it from the clip's duration, and the
     // voice fallback has to take it over -- see startVoice.
     let guard=null;
     const clearGuard=()=>{ if(guard!=null){ clearTimeout(guard); guard=null; } };
-    const startVoice=()=>{
+    const startVoice=()=>{ if(finished) return;
       // We are here because the video was abandoned, so the guard is still sized to the
       // VIDEO's timeline -- armed when its metadata arrived, seconds before this line
       // even starts. On a slow load that fired in the middle of the sentence and cut the
@@ -1988,7 +2327,7 @@ function makeBKit(pfx){
       // keep only a long backstop against a hung intro.
       clearGuard();
       guard=K.later(finish,25000);
-      K.later(()=>{ if(seq===K.runSeq) K.say(o.voice,()=>K.later(finish,350),o.est||6000); },300); };
+      K.later(()=>{ if(seq===K.runSeq && !finished) K.say(o.voice,()=>K.later(finish,350),o.est||6000); },300); };
     if(o.video){
       try{ introVid.muted=false; introVid.src=o.video; introVid.load(); }catch(e){}
       // The safety net that ends the intro if `onended` never arrives. It used to be
@@ -2028,7 +2367,7 @@ function makeBKit(pfx){
   // Every Week-2 activity page opens on a two-panel exchange: the beekeeper asks,
   // the boy answers. Play them as two intro beats so the child hears both.
   K.introPair=function(a,b,onDone){ K.intro(a, function(){ K.later(function(){ K.intro(b,onDone); }, 260); }); };
-  intro.addEventListener('click',()=>{ if(introDone) introDone(); });
+  intro.addEventListener('click',()=>{ if(introDone) introDone('tap'); });
   K.hideIntro=function(){ introDone=null; intro.classList.remove('on'); intro.classList.remove('leaving');
     introChar.classList.remove('talking'); try{introVid.pause(); introVid.removeAttribute('src'); introVid.load();}catch(e){}
     introVid.style.opacity='0'; introImg.style.opacity='1'; };
@@ -2045,7 +2384,7 @@ function makeBKit(pfx){
       (function ramp(){const k=Math.min(1,(performance.now()-t0)/1400); n.volume=target*k; if(k<1) requestAnimationFrame(ramp);})(); K.cheerNode=n; }catch(e){} }
     K.playEndFireworks(); };
   // everything that must die when the game is left or restarted
-  K.stopAll=function(){ K.runSeq++; K.clearTimers(); K.sayNode=K.stopSound(K.sayNode); K.cheerNode=K.stopSound(K.cheerNode);
+  K.stopAll=function(){ K.runSeq++; K.asking=false; K.clearTimers(); K.sayNode=K.stopSound(K.sayNode); K.cheerNode=K.stopSound(K.cheerNode);
     K.stopEndFireworks(); try{speechSynthesis.cancel();}catch(e){} K.hideSentence(); K.resetHeroes(); K.hideIntro(); K.hideNext(); $('end').style.display='none'; };
   // praise + heroes, then onDone (next round / end) — fully guarded by runSeq
   K.celebrate=function(voiceKey,praise,html,onDone){ const seq=K.runSeq;
@@ -2152,9 +2491,9 @@ function start(a){
     // celebrate (which does K.stopSound(K.sayNode)) cuts it cleanly.
     K.intro(
       {voice:'gerry_'+act, still:'assets/b7w4/gerry_intro.png?v=2', video:'assets/b7w4/gerry_'+act+'.webm?v=3', est:4500},
-      ()=>{ locked=false; K.later(()=>{ K.sayNode=K.stopSound(K.sayNode); K.sayNode=K.play('q_'+act); }, 450); });
+      ()=>{ K.asking=true; K.later(()=>{ K.ask('q_'+act, ()=>{ locked=false; }); }, 450); });
   } else {
-    const kOpts = {voice:A.intro.voice, text:A.intro.text, est:A.intro.est,
+    const kOpts = {voice:A.intro.voice, text:A.intro.text, est:A.intro.est, question:true,   // the keeper's line IS the question
                    still:'assets/b7/keeper_bust_idle.png?v=2',
                    video:'assets/b7/keeper_talk_'+act+'.webm?v=5'};
     // The presenter alone carries the intro. The heroes exist for the celebration animation.
@@ -2206,11 +2545,14 @@ const ACTS={
     intro:{voice:'tk_intro_rule3', text:'', est:12000},
     pre:'Read the <b>pattern</b> first.',
     rounds:[
-      // A A B -> three streams among ten pictures, so 10 - 3 = 7
-      {seq:['trees','trees','stream','trees','trees','stream','trees','trees','stream','trees'],
+      /* PATTERN LAW (teacher, 2026-09-21): a strip is a whole number of units. These two ran to ten pictures, which
+         is not a multiple of 3 (AAB) or 4 (AABB) - the rows ended mid-unit. The answer is computed from the strip
+         (FACT: n - k) and the celebration mp3 is keyed by k, which stays 3 and 4, so nothing else moves. */
+      // A A B -> three whole units, three streams among nine pictures, so 9 - 3 = 6
+      {seq:['trees','trees','stream','trees','trees','stream','trees','trees','stream'],
        take:'stream', ask:'Tap every <b>stream</b>. How many pictures are <b>left</b>?'},
-      // A A B B -> four bees among ten, so 10 - 4 = 6
-      {seq:['flowers','flowers','bee2','bee2','flowers','flowers','bee2','bee2','flowers','flowers'],
+      // A A B B -> two whole units, four bees among eight, so 8 - 4 = 4
+      {seq:['flowers','flowers','bee2','bee2','flowers','flowers','bee2','bee2'],
        take:'bee2', ask:'Tap every <b>bee</b>. How many pictures are <b>left</b>?'},
       // A B B -> three suns among nine, so 9 - 3 = 6
       {seq:['sun','flowers','flowers','sun','flowers','flowers','sun','flowers','flowers'],
@@ -2332,6 +2674,7 @@ K.reg('q_w4s1','assets/voice/q_w4s1.mp3','Count the pictures, then cross out the
 K.reg('q_w4s2','assets/voice/q_w4s2.mp3','Count the pictures, then cross out the ones we take away.');
 K.reg('q_w4t2','assets/voice/q_w4t2.mp3','Some bees fly away, then some more fly away. Count what is left.');
 let act='one', roundIdx=0, score=0, locked=true, crossed=0, stage='cross';
+let pageQ=null;   // Week-4 page question, read as round 1's question
 const box=$('box'), items=$('items'), nums=$('nums'), ans=$('ans');
 // The board used to be built BEFORE the intro, so the pictures and the boxed equation
 // sat there under the 86%-opaque overlay while the presenter was still talking -- and
@@ -2366,7 +2709,8 @@ function renderRound(){
   }
   [...items.children].forEach(b=>b.addEventListener('click',()=>tapItem(b)));
   // read the question printed on the page as each round opens
-  K.later(function(){ if(!locked) K.say(A.askVoice||'tk_ask2', null, 4200); }, 300);
+  K.asking=true; const _pq=pageQ; pageQ=null;
+  K.later(function(){ K.ask(_pq||A.askVoice||'tk_ask2', null, 4200); }, 300);
   const op2=$('eqOp2'), eqC=$('eqC');
   // The spans carry the [hidden] attribute (display:none). Setting display back to '' just
   // reverts to that, so the second take-away ("- c") stayed invisible even though its text was
@@ -2409,11 +2753,11 @@ function tapItem(btn){
   if(A.mode==='rule') $('eqB').textContent=crossed;
   if(A.mode==='two' && stage==='cross' && crossed>=f0.b){
     stage='cross2'; $('qAsk').innerHTML=r.ask2;
-    const seq=K.runSeq; K.later(()=>{ if(seq===K.runSeq) K.say('tk_ask_step2',null,3200); },450);
+    const seq=K.runSeq; K.asking=true; K.later(()=>{ if(seq===K.runSeq) K.ask('tk_ask_step2',null,3200); },450);
     return;
   }
   if(crossed>=rk){ stage='pick'; [...items.children].forEach(b=>b.classList.remove('pulsing'));
-    const seq=K.runSeq; K.later(()=>{ if(seq!==K.runSeq) return; showNums(); K.say('tk_ask',null,3500); },600); }
+    const seq=K.runSeq; K.asking=true; K.later(()=>{ if(seq!==K.runSeq) return; showNums(); K.ask('tk_ask',null,3500); },600); }
 }
 function showNums(){
   const A=ACTS[act], r=A.rounds[roundIdx], correct=FACT(A,r).ans;
@@ -2454,7 +2798,7 @@ function start(a){
     // Gerry presents, then the question is read VOICE-ONLY over the board (no picture).
     K.intro(
       {voice:'gerry_'+act, still:'assets/b7w4/gerry_intro.png?v=2', video:'assets/b7w4/gerry_'+act+'.webm?v=3', est:4500},
-      ()=>{ renderRound(); K.later(()=>{ K.sayNode=K.stopSound(K.sayNode); K.sayNode=K.play('q_'+act); }, 450); });
+      ()=>{ pageQ='q_'+act; renderRound(); });
   } else {
     const kOpts = {voice:A.intro.voice, text:A.intro.text, est:A.intro.est,
                    still: w3act ? 'assets/b7w3/keeper_bust_idle.png'
@@ -2522,7 +2866,7 @@ function tapRule(btn){
 function start(){
   K.stopAll(); roundIdx=0; score=0; locked=true; K.buildStars(ROUNDS.length); K.litStars(0); K.preloadHeroes();
   renderRound(); locked=true;
-  K.intro({voice:'gd_intro', text:'Look at the garden pattern.<br>Which <b>rule</b> is it?', est:6000, still:'assets/b7/keeper_bust_idle.png?v=2', video:'assets/b7/keeper_talk_gd.webm?v=3'}, ()=>{ locked=false; });
+  K.intro({question:true, voice:'gd_intro', text:'Look at the garden pattern.<br>Which <b>rule</b> is it?', est:6000, still:'assets/b7/keeper_bust_idle.png?v=2', video:'assets/b7/keeper_talk_gd.webm?v=3'}, ()=>{ locked=false; });
 }
 window.GardenGame={ _lastAct:null, start(){ start(); }, stop(){ K.stopAll(); locked=true; if(window.Hub) Hub.silence(); } };
 K.wireNav(window.GardenGame);
@@ -2559,7 +2903,7 @@ function flyAway(r){
   const going=bees.slice(bees.length-r.k);
   going.forEach((b,i)=>{ setTimeout(()=>{ b.classList.remove('sit'); void b.offsetWidth; b.classList.add('fly'); K.play('buzz'); }, i*350); });
   const seq=K.runSeq;
-  K.later(()=>{ if(seq!==K.runSeq) return; bubble.classList.remove('on'); eq.classList.add('on'); showNums(); stage='pick'; locked=false; K.say('fa_ask',null,3500); }, 350*r.k+1700);
+  K.later(()=>{ if(seq!==K.runSeq) return; bubble.classList.remove('on'); eq.classList.add('on'); showNums(); stage='pick'; locked=false; K.ask('fa_ask',null,3500); }, 350*r.k+1700);
 }
 function showNums(){
   nums.innerHTML=[0,1,2,3,4,5].map(v=>'<button type="button" class="faNum pulsing" data-v="'+v+'">'+v+'</button>').join('');
@@ -2706,6 +3050,7 @@ Object.keys(ACTS).forEach(a=>ACTS[a].rounds.forEach(r=>K.reg(r.v,'assets/voice/'
   r.p+' '+r.t.replace(/<[^>]+>/g,''))));
 
 let act='fw3', roundIdx=0, score=0, locked=true;
+let pageQ=null;   // Week-4 page question, read as round 1's question
 const ref=$('ref'), row=$('row');
 // On a repeat visit the PREVIOUS round's board was still in the DOM, showing through
 // the overlay for the whole intro. renderRound only runs once the presenter is done,
@@ -2731,7 +3076,8 @@ function renderRound(){
   K.later(function(){ if(seq!==K.runSeq) return;
     [...row.children].forEach(b=>b.classList.add('pulsing'));
     // read the question printed on the page, now that the child can see it
-    K.say(A.askVoice || 'fx_ask_gd', null, 4200);
+    const _pq=pageQ; pageQ=null;
+    K.ask(_pq || A.askVoice || 'fx_ask_gd', null, 4200);
     locked=false;
   }, 190*kids.length+420);
 }
@@ -2765,7 +3111,7 @@ function start(a){
     // Gerry presents, then the question is read VOICE-ONLY over the board (no picture).
     K.intro(
       {voice:'gerry_'+act, still:'assets/b7w4/gerry_intro.png?v=2', video:'assets/b7w4/gerry_'+act+'.webm?v=3', est:4500},
-      function(){ renderRound(); K.later(function(){ K.sayNode=K.stopSound(K.sayNode); K.sayNode=K.play('q_'+act); }, 450); });
+      function(){ pageQ='q_'+act; renderRound(); });
   } else {
     K.intro(
       {voice:A.intro.voice, text:A.intro.text, est:A.intro.est,
@@ -2818,6 +3164,7 @@ K.reg('q_w4b','assets/voice/q_w4b.mp3','One row below is the same. Tap A or B.')
 K.reg('mt_ask','assets/voice/mt_ask.mp3','Look at the pattern. Circle the correct letter. Tap A or B.');
 Object.keys(ACTS).forEach(a=>ACTS[a].rounds.forEach(r=>K.reg(r.v,'assets/voice/'+r.v+'.mp3',r.p+' '+r.t.replace(/<[^>]+>/g,'').replace(' \u2014 ',', '))));
 let act='flow', roundIdx=0, score=0, locked=true;
+let pageQ=null;   // Week-4 page question, read as round 1's question
 const ref=$('ref'), opts=$('opts');
 function renderRound(){
   const A=ACTS[act], r=A.rounds[roundIdx]; locked=true;
@@ -2835,7 +3182,8 @@ function renderRound(){
     [...opts.children].forEach(function(b,i){
       K.later(function(){ if(seq!==K.runSeq) return; b.classList.remove('hide'); b.classList.add('pulsing'); }, 220*i);
     });
-    K.say('mt_ask', null, 3800);   // read the question printed on the page
+    const _pq=pageQ; pageQ=null;
+    K.ask(_pq || 'mt_ask', null, 3800);   // read the question printed on the page
     locked=false;
   }, 260*kids.length+420);
 }
@@ -2865,7 +3213,7 @@ function start(a){
     // Gerry presents, then the question is read VOICE-ONLY over the board (no picture).
     K.intro(
       {voice:'gerry_'+act, still:'assets/b7w4/gerry_intro.png?v=2', video:'assets/b7w4/gerry_'+act+'.webm?v=3', est:4500},
-      function(){ renderRound(); K.later(function(){ K.sayNode=K.stopSound(K.sayNode); K.sayNode=K.play('q_'+act); }, 450); });
+      function(){ pageQ='q_'+act; renderRound(); });
   } else {
     K.intro(
       {voice:A.intro.voice, text:A.intro.text, est:A.intro.est,
@@ -2920,7 +3268,7 @@ function tap(btn){
 function start(){
   K.stopAll(); roundIdx=0; score=0; locked=true; K.buildStars(ROUNDS.length); K.litStars(0); K.preloadHeroes();
   renderRound(); locked=true;
-  K.intro({voice:'bd_intro', text:'Now <b>you</b> make a pattern!<br>Look at my row.<br>Then tap the pictures to build<br>one just like it.', est:7500, still:'assets/b7w2/keeper_bust_idle.png?v=3', video:'assets/b7w2/keeper_talk_bd.webm?v=3'}, function(){ locked=false; });
+  K.intro({question:true, voice:'bd_intro', text:'Now <b>you</b> make a pattern!<br>Look at my row.<br>Then tap the pictures to build<br>one just like it.', est:7500, still:'assets/b7w2/keeper_bust_idle.png?v=3', video:'assets/b7w2/keeper_talk_bd.webm?v=3'}, function(){ locked=false; });
 }
 window.BuildGame={ _lastAct:null, start(){ start(); }, stop(){ K.stopAll(); locked=true; if(window.Hub) Hub.silence(); } };
 K.wireNav(window.BuildGame);
@@ -2930,62 +3278,284 @@ K.wireNav(window.BuildGame);
 /* ---- W4 교구: COPY THE PATTERN (replication from a MIXED pool - William-approved v2) ---- */
 (function(){
 const K=makeBKit('ky'), $=K.$;
+// TEXTBOOK-CANONICAL rounds (B-7 W4 pages) that CLOSE their period (William 9/15 law):
+// p24 honey/hive AB - p24 flower/bee AB - p26 hive/flower/flower ABB. PICTURES ONLY -
+// "numbers are numbers" (William 9/15): distractors are wrong PICTURES from the same pages.
 const IMG={ bee:'assets/b7/bee.png', flower:'assets/b7/flower.png', hive:'assets/b7/hive.png',
             honey:'assets/b7/honey.png', comb:'assets/b7w4/honeycomb.png', book:'assets/b7w4/book.png' };
 const NAME={ bee:'bee', flower:'flower', hive:'beehive', honey:'honey pot', comb:'honeycomb', book:'book' };
 const ROUNDS=[
-  {model:['bee','flower','bee','flower','bee'],  extra:['hive','n5','honey','n2'], rule:'AB'},
-  {model:['bee','flower','hive','bee','flower'], extra:['honey','n7','comb','n3'],  rule:'ABC'},
-  {model:['hive','honey','hive','honey','hive'], extra:['bee','n9','book','n4'],  rule:'ABA'}];
+  {model:['honey','hive','honey','hive','honey','hive'],   extra:['bee','book'],  rule:'AB'},
+  {model:['flower','bee','flower','bee','flower','bee'],   extra:['hive','comb'], rule:'AB'},
+  {model:['hive','flower','flower','hive','flower','flower'], extra:['bee','book'], rule:'ABB'}];
 const PR=['Great job!','Excellent!','Amazing!'];
 K.reg('ky_intro','assets/voice/ky_intro.mp3',
-  'Look at the pattern on the table. Now you build the same one below! Pick the right cards. Some cards do not belong!');
+  'Look at the pattern. Now you build the same one below! Drag the right cards into the boxes. Some cards do not belong!');
 ROUNDS.forEach(function(r,i){ K.reg('ky_done_'+i,'assets/voice/ky_done_'+i+'.mp3',
-  'You copied the whole pattern. It is an '+r.rule+' pattern!'); });
-let roundIdx=0, fill=0, score=0, locked=true;
+  'You copied the whole pattern. It is an '+r.rule.split('').join(' ')+' pattern!'); });
+let roundIdx=0, score=0, locked=true, placed=[];
 const model=$('model'), row=$('row'), pool=$('pool');
-function cardHTML(id, pick){
-  const cls='kyCard'+(pick?' kyPick':'');
-  if(id.charAt(0)==='n') return '<div class="'+cls+'" data-id="'+id+'"><span class="kyNum">'+id.slice(1)+'</span></div>';
-  return '<div class="'+cls+'" data-id="'+id+'"><img src="'+IMG[id]+'" alt="'+NAME[id]+'"></div>'; }
+function cardHTML(id){ return '<div class="kyCard" data-id="'+id+'"><img src="'+IMG[id]+'" alt="'+NAME[id]+'"></div>'; }
 function sentenceHTML(r){ return r.model.map(function(id){ return '<img class="shp" src="'+IMG[id]+'" alt="">'; }).join('')
-  +' — it repeats! You built the '+r.rule+' pattern!'; }
+  +' — an <b>'+r.rule+'</b> pattern!'; }
 function renderRound(){
-  const r=ROUNDS[roundIdx]; locked=true; fill=0;
-  model.innerHTML=r.model.map(function(id){ return cardHTML(id,false); }).join('');
-  row.innerHTML=r.model.map(function(){ return '<div class="kySlot"></div>'; }).join('');
+  const r=ROUNDS[roundIdx]; locked=true; placed=r.model.map(function(){ return false; });
+  document.getElementById('ky_app').classList.toggle('kyBig', r.model.length+2>7);   // pool >7 cards wraps to two rows (hero corridor)
+  model.innerHTML=r.model.map(cardHTML).join('');
+  row.innerHTML=r.model.map(function(_,i){ return '<div class="kySlot" data-i="'+i+'"></div>'; }).join('');
   const items=r.model.concat(r.extra.slice(0,2));
   for(let i=items.length-1;i>0;i--){ const j=(Math.random()*(i+1))|0; const t=items[i]; items[i]=items[j]; items[j]=t; }
-  pool.innerHTML=items.map(function(id){ return cardHTML(id,true); }).join('');
+  pool.innerHTML=items.map(cardHTML).join('');
   Array.prototype.forEach.call(pool.children,function(el){
-    el.addEventListener('click',function(){ tap(el); }); });
+    el.addEventListener('click',function(){ if(el._noClick&&Date.now()<el._noClick) return; tap(el); });
+    if(window.kitDrag) kitDrag(el,function(target,moved){
+      if(!moved) return; el._noClick=Date.now()+500;
+      const slot=target&&target.closest?target.closest('#ky_row .kySlot'):null;
+      if(!slot) return;
+      place(el, Number(slot.dataset.i));
+    });
+  });
   K.litStars(score); K.resetHeroes(); locked=false;
 }
-function tap(el){
+function nextEmpty(){ for(let i=0;i<placed.length;i++){ if(!placed[i]) return i; } return -1; }
+function place(el,i){
   if(locked||el.classList.contains('used')) return;
-  const r=ROUNDS[roundIdx], want=r.model[fill];
-  if(el.dataset.id===want){
-    K.play('correct');
-    const slot=row.children[fill];
-    slot.innerHTML=cardHTML(want,false);
-    el.classList.add('used');
-    fill++;
-    if(fill>=r.model.length){
-      locked=true; score++; K.litStars(score);
-      K.celebrate('ky_done_'+roundIdx, PR[roundIdx%PR.length], sentenceHTML(r), function(){
-        roundIdx++; if(roundIdx<ROUNDS.length) renderRound(); else K.endGame(ROUNDS.length,score); });
-    }
-  } else { K.shakeEl(el); }
+  const r=ROUNDS[roundIdx];
+  if(i<0||placed[i]||r.model[i]!==el.dataset.id){ K.shakeEl(el); return; }
+  K.play('correct');
+  row.children[i].innerHTML=cardHTML(el.dataset.id); placed[i]=true; el.classList.add('used');
+  if(placed.every(Boolean)){
+    locked=true; score++; K.litStars(score);
+    K.celebrate('ky_done_'+roundIdx, PR[roundIdx%PR.length], sentenceHTML(r), function(){
+      roundIdx++; if(roundIdx<ROUNDS.length) renderRound(); else K.endGame(ROUNDS.length,score); });
+  }
+}
+function tap(el){ place(el, nextEmpty()); }
+function start(){
+  K.stopAll(); K.runSeq++; K.stopEndFireworks(); $('end').classList.remove('on');
+  roundIdx=0; score=0; K.buildStars(ROUNDS.length);
+  renderRound();
+  K.intro({question:true, voice:'ky_intro', text:'Look at the pattern. Build the same one below — some cards do not belong!',
+           vid:'assets/b7w2/keeper_talk_bd.webm'}, function(){});
+}
+window.KyGame={ _lastAct:null, start(){ start(); }, stop(){ K.stopAll(); locked=true; if(window.Hub) Hub.silence(); } };
+K.wireNav(window.KyGame);
+})();
+
+/* ---- Play Kit drag helper (A template): pointer-drag a pool card onto whatever is under the pointer ---- */
+window.kitDrag=function(el,onDrop){
+  el.addEventListener('pointerdown',function(e){
+    if((e.pointerType==='mouse'&&e.button!==0)||el.classList.contains('used')) return;
+    var id=e.pointerId, moved=false;
+    var g=el.cloneNode(true); g.className+=' kyGhost'; var r=el.getBoundingClientRect();
+    g.style.width=r.width+'px'; g.style.height=r.height+'px'; g.style.left=e.clientX+'px'; g.style.top=e.clientY+'px';
+    document.body.appendChild(g); el.classList.add('dragging');
+    try{ el.setPointerCapture(id); }catch(x){}
+    function mv(ev){ if(ev.pointerId!==id) return; moved=true; g.style.left=ev.clientX+'px'; g.style.top=ev.clientY+'px'; ev.preventDefault(); }
+    function up(ev){ if(ev.pointerId!==id) return;
+      el.removeEventListener('pointermove',mv); el.removeEventListener('pointerup',up); el.removeEventListener('pointercancel',up);
+      try{ el.releasePointerCapture(id); }catch(x){}
+      g.remove(); el.classList.remove('dragging');
+      var target=(ev.type==='pointerup')?document.elementFromPoint(ev.clientX,ev.clientY):null;
+      onDrop(target, moved); }
+    el.addEventListener('pointermove',mv); el.addEventListener('pointerup',up); el.addEventListener('pointercancel',up);
+    e.preventDefault();
+  });
+};
+
+/* ---- PLAY KIT 2: TAKE AWAY! (B-7 W4 Numbers pages: p27 books sold, p28 shoo the bees).
+   The child taps the ones to take away (they get the book's red X), then picks the answer. ---- */
+(function(){
+const K=makeBKit('kt'), $=K.$;
+const ROUNDS=[
+  {obj:'book', img:'assets/b7w4/book.png', n:6, take:3, head:'assets/kyogu/sentence_books.png?v=1',
+   line:function(t,rem){ return '<b>'+t+'</b> books were sold.'; }},
+  {obj:'bee',  img:'assets/b7/bee.png',    n:9, take:5, head:'assets/kyogu/sentence_bees.png?v=1',
+   line:function(t,rem){ return 'I shooed away <b>'+t+'</b> bees.'; }},
+  {obj:'bee',  img:'assets/b7/bee.png',    n:7, take:1, head:'assets/kyogu/sentence_bees.png?v=1',
+   line:function(t,rem){ return 'I shooed away <b>'+t+'</b> bee.'; }}];
+const PR=['Great job!','Excellent!','Amazing!'];
+K.reg('kt_intro','assets/voice/kt_intro.mp3',
+  'Read the number sentence. Tap the ones to take away, then pick the answer!');
+ROUNDS.forEach(function(r,i){ K.reg('kt_done_'+i,'assets/voice/kt_done_'+i+'.mp3',
+  r.n+' take away '+r.take+' leaves '+(r.n-r.take)+'!'); });
+let roundIdx=0, score=0, locked=true, crossed=0, phase='cross';
+const field=$('field'), eq=$('eq'), pool=$('pool');
+function renderRound(){
+  const r=ROUNDS[roundIdx]; locked=true; crossed=0; phase='cross';
+  document.getElementById('kt_key').innerHTML='<img class="kyKeyImg" src="'+r.head+'" alt="">';
+  document.getElementById('kt_qAsk').innerHTML='Tap <b>'+r.take+'</b> '+(r.obj==='book'?'books':'bees')+' to take them away!';
+  field.innerHTML='';
+  for(let i=0;i<r.n;i++){ field.innerHTML+='<div class="ktObj" data-i="'+i+'"><img src="'+r.img+'" alt="'+r.obj+'"><div class="ktX" hidden>\u2715</div></div>'; }
+  eq.innerHTML='<span class="ktNum">'+r.n+'</span><span class="ktOp">\u2212</span><span class="ktNum">'+r.take+'</span><span class="ktOp">=</span><span class="ktAns" id="kt_ans">?</span>';
+  eq.classList.remove('on');
+  const ans=r.n-r.take;
+  let opts=[ans, ans+1, Math.max(1,ans-1)];
+  if(opts[2]===ans) opts[2]=ans+2;
+  for(let i=opts.length-1;i>0;i--){ const j=(Math.random()*(i+1))|0; const t=opts[i]; opts[i]=opts[j]; opts[j]=t; }
+  pool.innerHTML=opts.map(function(v){ return '<div class="kyCard ktNumCard" data-v="'+v+'"><span class="kyNum">'+v+'</span></div>'; }).join('');
+  pool.classList.remove('on');
+  Array.prototype.forEach.call(field.children,function(el){
+    el.addEventListener('click',function(){ tapObj(el); }); });
+  Array.prototype.forEach.call(pool.children,function(el){
+    el.addEventListener('click',function(){ tapAns(el); }); });
+  K.litStars(score); K.resetHeroes(); locked=false;
+}
+function tapObj(el){
+  if(locked||phase!=='cross') return;
+  const x=el.querySelector('.ktX');
+  if(!x.hidden){ K.shakeEl(el); return; }
+  const r=ROUNDS[roundIdx];
+  x.hidden=false; el.classList.add('gone'); K.play('pop'); crossed++;
+  if(crossed>=r.take){
+    phase='answer'; eq.classList.add('on'); pool.classList.add('on');
+    document.getElementById('kt_qAsk').innerHTML='Now pick the answer: how many are <b>left</b>?';
+  }
+}
+function tapAns(el){
+  if(locked||phase!=='answer'||el.classList.contains('used')) return;
+  const r=ROUNDS[roundIdx], ans=r.n-r.take;
+  if(+el.dataset.v!==ans){ K.play('wrong'); K.shakeEl(el); el.classList.add('used'); return; }
+  locked=true; K.play('correct'); score++; K.litStars(score);
+  document.getElementById('kt_ans').textContent=ans;
+  K.celebrate('kt_done_'+roundIdx, PR[roundIdx%PR.length],
+    r.line(r.take, ans)+' <b>'+r.n+' \u2212 '+r.take+' = '+ans+'</b>', function(){
+      roundIdx++; if(roundIdx<ROUNDS.length) renderRound(); else K.endGame(ROUNDS.length,score); });
 }
 function start(){
   K.stopAll(); K.runSeq++; K.stopEndFireworks(); $('end').classList.remove('on');
   roundIdx=0; score=0; K.buildStars(ROUNDS.length);
   renderRound();
-  K.intro({voice:'ky_intro', text:'Look at the pattern on the table. Build the same one below — some cards do not belong!',
-           vid:'assets/b7/keeper_talk_bd.webm'}, function(){});
+  K.intro({question:true, voice:'kt_intro', text:'Read the number sentence. Tap the ones to take away, then pick the answer!',
+           vid:'assets/b7w2/keeper_talk_bd.webm'}, function(){});
 }
-window.KyGame={ _lastAct:null, start(){ start(); }, stop(){ K.stopAll(); locked=true; if(window.Hub) Hub.silence(); } };
-K.wireNav(window.KyGame);
+window.KtGame={ _lastAct:null, start(){ start(); }, stop(){ K.stopAll(); locked=true; if(window.Hub) Hub.silence(); } };
+K.wireNav(window.KtGame);
+})();
+
+/* ---- PLAY KIT 3: PATTERN BLOCKS - BUILD THE HONEYCOMB (B-7 bee world; canonical blocks).
+   GEOMETRY IS TRUE: every cell is the flat-bottom unit hexagon; trapezoids are its half,
+   rhombi come from its center to its vertices (never rotation-guessed). ---- */
+(function(){
+const K=makeBKit('pb'), $=K.$;
+const U=46, H=U*Math.sqrt(3)/2;
+// flat-bottom unit hexagon, bottom edge on y=0
+const HEXV=[[-U/2,0],[U/2,0],[U,-H],[U/2,-2*H],[-U/2,-2*H],[-U,-H]];
+const CTR=[0,-H];
+function poly(pts,dx,dy){ return pts.map(function(p){ return [p[0]+dx,p[1]+dy]; }); }
+const HEX = HEXV;
+const TRAP_LO=[HEXV[5],HEXV[0],HEXV[1],HEXV[2]];               // lower half-hexagon
+const TRAP_HI=[HEXV[2],HEXV[3],HEXV[4],HEXV[5]];               // upper half-hexagon
+function RHOM(k){ return [CTR,HEXV[(2*k)%6],HEXV[(2*k+1)%6],HEXV[(2*k+2)%6]]; }
+const TRI_UP=[[-U/2,0],[U/2,0],[0,-H]];
+function triAt(k){  // six petal triangles around the hexagon (outward), one per edge
+  const a=HEXV[k%6], b=HEXV[(k+1)%6];
+  const mx=(a[0]+b[0])/2-CTR[0], my=(a[1]+b[1])/2-CTR[1];
+  const L=Math.sqrt(mx*mx+my*my), f=H/L;
+  return [a,b,[(a[0]+b[0])/2+mx*f/1.0,(a[1]+b[1])/2+my*f/1.0]];
+}
+const FILL={hex:'#ffd400', trap:'#e03030', rhom:'#2b6fd6', tri:'#3caa50'};
+const PNAME={hex:'hexagon', trap:'trapezoid', rhom:'rhombus', tri:'triangle'};
+// pool piece art (flat-bottom canonical forms)
+const PIECE={hex:HEX, trap:TRAP_LO, rhom:RHOM(0), tri:TRI_UP};
+function slotsStrip(kinds){ const out=[]; kinds.forEach(function(k,i){
+  const dx=i*(2.15*U); const shape=k==='hex'?HEX:(k==='trap'?TRAP_LO:(k==='rhom'?RHOM(0):TRI_UP));
+  out.push({kind:k, pts:poly(shape,dx,0)}); }); return out; }
+function slotsCell(mode,dx){
+  if(mode==='hex') return [{kind:'hex',pts:poly(HEX,dx,0)}];
+  if(mode==='trap') return [{kind:'trap',pts:poly(TRAP_LO,dx,0)},{kind:'trap',pts:poly(TRAP_HI,dx,0)}];
+  return [0,1,2].map(function(k){ return {kind:'rhom',pts:poly(RHOM(k),dx,0)}; });
+}
+function slotsFlower(){
+  const out=[{kind:'hex',pts:poly(HEX,0,0)}];
+  for(let k=0;k<6;k++) out.push({kind:'tri',pts:poly(triAt(k),0,0)});
+  return out;
+}
+const ROUNDS=[
+  {id:'strip',  pre:'Extend the pattern!', slots:slotsStrip(['hex','trap','hex','trap','hex','trap']),
+   key:'Hexagon, trapezoid \u2014 an <b>AB</b> pattern with blocks!', say:'an A B pattern with blocks'},
+  {id:'cell1',  pre:'Fill the honeycomb cell!', slots:slotsCell('hex',0),
+   key:'<b>One</b> yellow hexagon fills the cell.', say:'One yellow hexagon fills the cell'},
+  {id:'cell2',  pre:'Make the cell ANOTHER way!', slots:slotsCell('trap',0),
+   key:'<b>Two</b> red trapezoids make the cell too!', say:'Two red trapezoids make the cell too'},
+  {id:'cell3',  pre:'One more way!', slots:slotsCell('rhom',0),
+   key:'<b>Three</b> blue rhombi make the cell!', say:'Three blue rhombi make the cell'},
+  {id:'comb',   pre:'Build the honeycomb!', slots:slotsCell('hex',-2.4*U).concat(slotsCell('trap',0),slotsCell('rhom',2.4*U)),
+   key:'One cell, <b>three ways</b> \u2014 that is the honeycomb!', say:'One cell, three ways. That is the honeycomb'},
+  {id:'flower', pre:'Make the flower for the bees!', slots:slotsFlower(),
+   key:'A hexagon and <b>six</b> triangles make a flower!', say:'A hexagon and six triangles make a flower'}];
+const PR=['Great job!','Excellent!','Amazing!','Wonderful!','Super!','Fantastic!'];
+K.reg('pb_intro','assets/voice/pb_intro.mp3','Look at the outline. Drag the blocks to build it!');
+ROUNDS.forEach(function(r,i){ K.reg('pb_done_'+i,'assets/voice/pb_done_'+i+'.mp3', r.say+'!'); });
+let roundIdx=0, score=0, locked=true, filled=[];
+const stage=$('stage'), pool=$('pool'), tracker=$('tracker'), check=$('check');
+function ptsStr(pts){ return pts.map(function(p){ return p[0].toFixed(1)+','+p[1].toFixed(1); }).join(' '); }
+function bboxOf(slots){ let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
+  slots.forEach(function(sl){ sl.pts.forEach(function(p){ x0=Math.min(x0,p[0]); x1=Math.max(x1,p[0]); y0=Math.min(y0,p[1]); y1=Math.max(y1,p[1]); }); });
+  return {x0:x0,y0:y0,x1:x1,y1:y1}; }
+function shapeSVG(slots, solid, cls){
+  const b=bboxOf(slots), pad=8, w=b.x1-b.x0+2*pad, h=b.y1-b.y0+2*pad;
+  return '<svg viewBox="'+(b.x0-pad)+' '+(b.y0-pad)+' '+w+' '+h+'" class="'+(cls||'')+'">'+
+    slots.map(function(sl,i){ return '<polygon points="'+ptsStr(sl.pts)+'" '+(solid?'fill="'+FILL[sl.kind]+'" stroke="#222" stroke-width="3"':
+      'class="pbSlot" data-kind="'+sl.kind+'" data-i="'+i+'"')+'/>'; }).join('')+'</svg>';
+}
+function pieceHTML(kind){ const pts=PIECE[kind], b=bboxOf([{kind:kind,pts:pts}]), pad=6;
+  return '<div class="kyCard pbPiece" data-kind="'+kind+'">'+
+    '<svg viewBox="'+(b.x0-pad)+' '+(b.y0-pad)+' '+(b.x1-b.x0+2*pad)+' '+(b.y1-b.y0+2*pad)+'"><polygon points="'+ptsStr(pts)+'" fill="'+FILL[kind]+'" stroke="#222" stroke-width="3"/></svg></div>'; }
+function renderTracker(){
+  tracker.innerHTML=ROUNDS.map(function(r,i){ return '<div class="pbTk'+(i===roundIdx?' cur':(i<roundIdx?' done':''))+'">'+shapeSVG(r.slots,true)+'</div>'; }).join(''); }
+function renderRound(){
+  const r=ROUNDS[roundIdx]; locked=true; filled=r.slots.map(function(){ return false; });
+  $('pre').innerHTML=r.pre;
+  document.getElementById('pb_key').innerHTML=r.key;
+  renderTracker(); check.innerHTML=shapeSVG(r.slots,true);
+  const b=bboxOf(r.slots), pad=10;
+  stage.setAttribute('viewBox',(b.x0-pad)+' '+(b.y0-pad)+' '+(b.x1-b.x0+2*pad)+' '+(b.y1-b.y0+2*pad));
+  stage.innerHTML=r.slots.map(function(sl,i){ return '<polygon class="pbSlot" data-kind="'+sl.kind+'" data-i="'+i+'" points="'+ptsStr(sl.pts)+'"/>'; }).join('');
+  const need=r.slots.map(function(sl){ return sl.kind; });
+  const others=['hex','trap','rhom','tri'].filter(function(k){ return need.indexOf(k)<0; });
+  const items=need.concat(others.slice(0,2).length?others.slice(0,2):['tri','rhom']);
+  for(let i=items.length-1;i>0;i--){ const j=(Math.random()*(i+1))|0; const t=items[i]; items[i]=items[j]; items[j]=t; }
+  document.getElementById('pb_app').classList.toggle('pbBig', items.length>8);   // 9-piece pools wrap to two rows (hero corridor)
+  pool.innerHTML=items.map(pieceHTML).join('');
+  Array.prototype.forEach.call(pool.children,function(el){
+    el.addEventListener('click',function(){ if(el._noClick&&Date.now()<el._noClick) return; tap(el); });
+    if(window.kitDrag) kitDrag(el,function(target,moved){
+      if(!moved) return; el._noClick=Date.now()+500;
+      const slot=target&&target.closest?target.closest('#pb_stage .pbSlot'):null;
+      if(!slot) return;
+      place(el, Number(slot.dataset.i));
+    });
+  });
+  K.litStars(score); K.resetHeroes(); locked=false;
+}
+function place(el,i){
+  if(locked||el.classList.contains('used')) return;
+  const r=ROUNDS[roundIdx], kind=el.dataset.kind;
+  if(i<0||filled[i]||r.slots[i].kind!==kind){ K.shakeEl(el); return; }
+  const p=stage.children[i]; p.classList.add('filled'); p.style.fill=FILL[kind];
+  filled[i]=true; el.classList.add('used'); K.play('pop');
+  if(filled.every(Boolean)){
+    locked=true; K.play('correct'); score++; K.litStars(score);
+    K.celebrate('pb_done_'+roundIdx, PR[roundIdx%PR.length],
+      shapeSVG(r.slots,true,'pbSayShape')+' '+r.key, function(){
+        roundIdx++; if(roundIdx<ROUNDS.length) renderRound(); else K.endGame(ROUNDS.length,score); });
+  }
+}
+function tap(el){
+  const r=ROUNDS[roundIdx];
+  for(let i=0;i<r.slots.length;i++){ if(!filled[i]&&r.slots[i].kind===el.dataset.kind){ place(el,i); return; } }
+  K.shakeEl(el);
+}
+function start(){
+  K.stopAll(); K.runSeq++; K.stopEndFireworks(); $('end').classList.remove('on');
+  roundIdx=0; score=0; K.buildStars(ROUNDS.length);
+  renderRound();
+  K.intro({question:true, voice:'pb_intro', text:'Look at the outline. Drag the blocks to build it!',
+           vid:'assets/b7w2/keeper_talk_bd.webm'}, function(){});
+}
+window.PbGame={ _lastAct:null, start(){ start(); }, stop(){ K.stopAll(); locked=true; if(window.Hub) Hub.silence(); } };
+K.wireNav(window.PbGame);
 })();
 
 /* ---- W2 Thinking Math 2: LEAVES FALL (subtraction in a real situation) ---- */
@@ -3029,7 +3599,7 @@ function askNumber(r,seq){
   nums.innerHTML=Array.from({length:7},function(_,i){ return '<button type="button" class="faNum" data-n="'+i+'">'+i+'</button>'; }).join('');
   nums.classList.add('on');
   [].slice.call(nums.children).forEach(function(b){ b.addEventListener('click',function(){ pick(b,r); }); });
-  K.say('lf_ask',null,2600); locked=false;
+  K.ask('lf_ask',null,2600); locked=false;
 }
 function pick(btn,r){
   if(locked) return; K.play('tap');
@@ -3210,6 +3780,14 @@ window.Hub = {
   },
   // Week 4 is a REVIEW week: it reuses every earlier engine (completing / matching /
   // fixing / take-away) with its own new problems from book pages 22-25.
+  kitMenu:{
+    title:'Play Kit',
+    options:[
+      {launch:'ky', label:'Pattern Cards',  orange:true},
+      {launch:'kt', label:'Take Away!',     orange:true},
+      {launch:'pb', label:'Pattern Blocks', orange:true}
+    ]
+  },
   actMenusW4:{
     act1:{ title:'Math Activities 1',
       options:[ {launch:'complete', act:'w4a', label:'Activity 1'},   // Completing Patterns (p.22)
@@ -3219,8 +3797,7 @@ window.Hub = {
                 {launch:'take', act:'w4s2', label:'Activity 2', blue:true} ] },// mixed take-away (p.25)
     act3:{ title:'Thinking Math',
       options:[ {launch:'fix',  act:'w4t1', label:'Activity 1', orange:true},   // application: which picture is wrong?
-                {launch:'take', act:'w4t2', label:'Activity 2', orange:true},   // application: take away twice
-                {launch:'ky',   label:'Pattern Cards', orange:true} ] }            // W4 Card Activities (approved 09-14)
+                {launch:'take', act:'w4t2', label:'Activity 2', orange:true} ] }  // ky moved to the Play Kit card (W4)
   },
   menusFor(week){ return week===4 ? this.actMenusW4 : week===3 ? this.actMenusW3 : week===2 ? this.actMenusW2 : this.actMenus; },
   _conceptTimer:null,
@@ -3253,8 +3830,89 @@ window.Hub = {
     if(startBtn) startBtn.hidden=true;
     player.play().catch(()=>{});
   },
+  // CHAPTER PLAY BAR (William 9/15: "the play bar on the math lit vid so that people can
+  // jump between the parts"). Boundaries are MEASURED edit points of each week's
+  // literature mp4 (scene cuts + silences + transcript + frame checks), never guessed.
+  litChapters:{
+    1:[{t:0,l:'Story',ic:'\uD83C\uDFAC'},{t:81.3,l:'2D Story',ic:'\uD83D\uDD8D'},{t:93.7,l:'Song',ic:'\uD83C\uDFB5'},{t:164.4,l:'Pictures',ic:'\uD83D\uDCAC'},{t:173.7,l:'Reading',ic:'\uD83D\uDCD6'},{t:200.9,l:'You read!',ic:'\u2B50'}],
+    2:[{t:0,l:'Story',ic:'\uD83C\uDFAC'},{t:45.7,l:'2D Story',ic:'\uD83D\uDD8D'},{t:75.8,l:'Song',ic:'\uD83C\uDFB5'},{t:124.3,l:'Pictures',ic:'\uD83D\uDCAC'},{t:144.4,l:'Reading',ic:'\uD83D\uDCD6'},{t:168.2,l:'You read!',ic:'\u2B50'}],
+    3:[{t:0,l:'Story',ic:'\uD83C\uDFAC'},{t:37.7,l:'2D Story',ic:'\uD83D\uDD8D'},{t:69.0,l:'Song',ic:'\uD83C\uDFB5'},{t:128.4,l:'Pictures',ic:'\uD83D\uDCAC'},{t:137.5,l:'Reading',ic:'\uD83D\uDCD6'},{t:170.5,l:'You read!',ic:'\u2B50'}],
+    4:[{t:0,l:'Story',ic:'\uD83C\uDFAC'},{t:35.5,l:'2D Story',ic:'\uD83D\uDD8D'},{t:66.2,l:'Song',ic:'\uD83C\uDFB5'},{t:110.0,l:'Pictures',ic:'\uD83D\uDCAC'},{t:119.2,l:'Reading',ic:'\uD83D\uDCD6'},{t:146.4,l:'You read!',ic:'\u2B50'}],
+  },
+  buildLitChapters(act){
+    const bar=document.getElementById('v_chapters');
+    const player=document.getElementById('v_player');
+    if(!bar||!player) return;
+    const chs = act==='poem' ? this.litChapters[this.week] : null;
+    if(this._chT){ clearInterval(this._chT); this._chT=null; }
+    bar.hidden=!chs||!chs.length;
+    bar.innerHTML='';
+    if(bar.hidden) return;
+    // PART-BOUNDED PLAYBACK (William 9/15): a tapped chapter plays ONLY itself and pauses
+    // at its measured end (snap-back keeps the stop exact); tapping it again replays it.
+    // "Play All" is the whole-film watch-through. mode = 'all' | chapter index.
+    let mode='all';
+    const endOf=function(j){ return j+1<chs.length?chs[j+1].t:(player.duration||1e9); };
+    const startPlay=function(){
+      const sb=document.getElementById('v_startBtn');
+      if(sb&&!sb.hidden) sb.click(); else player.play().catch(function(){});
+    };
+    bar.innerHTML='<button type="button" class="vChapAll" aria-label="Play the whole video">'
+      +'<span class="vChapIc">\u25B6</span><span class="vChapLb">Play All</span></button>'
+      +chs.map(function(c,i){
+      return '<button type="button" class="vChap" data-i="'+i+'" data-t="'+c.t+'" aria-label="'+c.l+'">'
+        +'<span class="vChapFill"></span><span class="vChapIc">'+c.ic+'</span>'
+        +'<span class="vChapLb">'+c.l+'</span></button>'; }).join('');
+    const chapBtns=Array.prototype.slice.call(bar.querySelectorAll('.vChap'));
+    const clearEnded=function(){ chapBtns.forEach(function(b){ b.classList.remove('ended'); }); };
+    bar.querySelector('.vChapAll').addEventListener('click',function(){
+      mode='all'; clearEnded();
+      try{ player.currentTime=0.05; }catch(e){}
+      startPlay();
+    });
+    chapBtns.forEach(function(b){
+      b.addEventListener('click',function(){
+        const i=+b.dataset.i;
+        mode=i; clearEnded();
+        try{ player.currentTime=chs[i].t+0.05; }catch(e){}
+        startPlay();
+      });
+    });
+    const boundCheck=function(){
+      if(mode==='all'||player.paused) return;
+      const e=endOf(mode);
+      if((player.currentTime||0)>=e-0.08){
+        player.pause();
+        try{ player.currentTime=Math.max(chs[mode].t, e-0.06); }catch(_){ }
+        const b=chapBtns[mode]; if(b) b.classList.add('ended');
+        const shell=document.querySelector('.vidShell');
+        if(shell){ shell.classList.remove('is-playing'); shell.classList.add('is-ready'); }
+        const sb=document.getElementById('v_startBtn'); if(sb) sb.hidden=true;
+      }
+    };
+    player.addEventListener('timeupdate', boundCheck);
+    // resuming via the little play toggle FROM a part-end pause means "keep watching":
+    // switch to Play All so the film continues instead of instantly re-pausing.
+    player.addEventListener('play', function(){
+      if(mode!=='all'){ const e=endOf(mode);
+        if(Math.abs((player.currentTime||0)-(e-0.06))<0.25){ mode='all'; clearEnded(); } }
+    });
+    const upd=function(){
+      boundCheck();
+      const t=player.currentTime||0;
+      let i=chs.length-1; while(i>0&&t<chs[i].t) i--;
+      chapBtns.forEach(function(b,j){
+        b.classList.toggle('on', j===i);
+        const f=b.querySelector('.vChapFill');
+        const t0=chs[j].t, t1=j+1<chs.length?chs[j+1].t:(player.duration||t0+1);
+        f.style.width=(j<i?100:(j>i?0:Math.max(0,Math.min(100,100*(t-t0)/(t1-t0)))))+'%';
+      });
+    };
+    this._chT=setInterval(upd,100); upd();
+  },
   playVideo(act){
     const meta=this.videos[act]||{title:'Video', src:''};
+    this.buildLitChapters(act);
     const shell=document.querySelector('.vidShell');
     const title=document.getElementById('v_title');
     const player=document.getElementById('v_player');
@@ -3329,14 +3987,17 @@ window.Hub = {
   showActPick(menuKey){
     const menus=this.menusFor(this.week)||this.actMenus||{};
     this.actMenuKey=menuKey||this.actMenuKey||'act1';
-    const menu=menus[this.actMenuKey]||menus.act1;
+    // 'kit' = the Play Kit hub card's own menu (same W4 set from every entry point)
+    const menu=menus[this.actMenuKey]||(this.actMenuKey==='kit'?this.kitMenu:null)||menus.act1;
     const title=document.getElementById('ap_title');
     const btn1=document.getElementById('ap_btn1');
     const btn2=document.getElementById('ap_btn2');
+    const btn3=document.getElementById('ap_btn3');
     if(title) title.textContent=menu.title;
-    [btn1,btn2].forEach((btn,i)=>{
+    [btn1,btn2,btn3].forEach((btn,i)=>{
       if(!btn) return;
       const opt=menu.options[i];
+      btn.hidden=!opt;
       if(!opt) return;
       btn.dataset.launch=opt.launch;
       btn.dataset.act=opt.act||'';
@@ -3452,7 +4113,7 @@ window.Hub = {
     this.silence();
     this.stopVideo();
     this.stopConceptVideo();
-    ['complete','take','garden','fly','match','fix','build','leaf','ky','video','concept','actPick'].forEach(k=>{
+    ['complete','take','garden','fly','match','fix','build','leaf','ky','kt','pb','video','concept','actPick'].forEach(k=>{
       const el=document.getElementById('screen-'+k);
       if(el) el.classList.remove('on');
     });
@@ -3465,6 +4126,8 @@ window.Hub = {
     if(window.BuildGame) BuildGame.stop();
     if(window.LeafGame) LeafGame.stop();
     if(window.KyGame) KyGame.stop();
+    if(window.KtGame) KtGame.stop();
+    if(window.PbGame) PbGame.stop();
     this.silence();
     document.getElementById('hub').classList.add('hide');
     document.getElementById('weeks').classList.remove('hide');
@@ -3491,6 +4154,7 @@ window.Hub = {
     week=Number(week)||1;
     this.week=week;
     this.applyWeekArt(week);
+    if(window.hubCarousel) hubCarousel.setWeek(week);      // Play Kit card is W4-only
     this.setHubReady(week);
     document.getElementById('weeks').classList.add('hide');
     document.getElementById('hub').classList.remove('hide');
@@ -3500,7 +4164,7 @@ window.Hub = {
     this.silence();
     this.stopVideo();
     this.stopConceptVideo();
-    ['complete','take','garden','fly','match','fix','build','leaf','ky','video','concept','actPick'].forEach(k=>{
+    ['complete','take','garden','fly','match','fix','build','leaf','ky','kt','pb','video','concept','actPick'].forEach(k=>{
       const el=document.getElementById('screen-'+k);
       if(el) el.classList.remove('on');
     });
@@ -3513,6 +4177,8 @@ window.Hub = {
     if(window.BuildGame) BuildGame.stop();
     if(window.LeafGame) LeafGame.stop();
     if(window.KyGame) KyGame.stop();
+    if(window.KtGame) KtGame.stop();
+    if(window.PbGame) PbGame.stop();
     this.silence();
     document.getElementById('weeks').classList.add('hide');
     document.getElementById('hub').classList.remove('hide');
@@ -3532,10 +4198,12 @@ window.Hub = {
     if(window.BuildGame) BuildGame.stop();
     if(window.LeafGame) LeafGame.stop();
     if(window.KyGame) KyGame.stop();
+    if(window.KtGame) KtGame.stop();
+    if(window.PbGame) PbGame.stop();
     this.silence();
     document.getElementById('weeks').classList.add('hide');
     document.getElementById('hub').classList.add('hide');
-    ['complete','take','garden','fly','match','fix','build','leaf','ky','video','concept','actPick'].forEach(k=>{
+    ['complete','take','garden','fly','match','fix','build','leaf','ky','kt','pb','video','concept','actPick'].forEach(k=>{
       const el=document.getElementById('screen-'+k);
       if(el) el.classList.toggle('on', k===kind);
     });
@@ -3553,6 +4221,8 @@ window.Hub = {
       else if(kind==='build') BuildGame.start();
       else if(kind==='leaf') LeafGame.start();
       else if(kind==='ky') KyGame.start();
+      else if(kind==='kt') KtGame.start();
+      else if(kind==='pb') PbGame.start();
       else if(kind==='video') this.playVideo(act);
       else if(kind==='concept') this.showConceptPick();
       else if(kind==='actPick') this.showActPick(act||this.actMenuKey||'act1');
@@ -3674,6 +4344,12 @@ document.querySelectorAll('#ap_stage .actPickBtn').forEach(btn=>{
     dotsWrap.appendChild(b);
   });
   const dots=[...dotsWrap.querySelectorAll('button')];
+  let limit=cards.length;
+  window.hubCarousel={ setWeek(week){
+    let n=0;
+    cards.forEach((card,idx)=>{ const w=card.dataset.week; const show=!w||Number(w)===Number(week); card.hidden=!show; dots[idx].hidden=!show; if(show) n=idx+1; });
+    limit=n; if(i>=limit) i=limit-1; render();
+  } };
   function render(){
     cards.forEach((card,idx)=>{
       card.classList.remove('is-center','is-left','is-right','is-far');
@@ -3685,10 +4361,10 @@ document.querySelectorAll('#ap_stage .actPickBtn').forEach(btn=>{
     });
     dots.forEach((d,idx)=>d.classList.toggle('on', idx===i));
     prevBtn.disabled=i<=0;
-    nextBtn.disabled=i>=cards.length-1;
+    nextBtn.disabled=i>=limit-1;
   }
   prevBtn.addEventListener('click',()=>{ if(i>0){ i--; render(); } });
-  nextBtn.addEventListener('click',()=>{ if(i<cards.length-1){ i++; render(); } });
+  nextBtn.addEventListener('click',()=>{ if(i<limit-1){ i++; render(); } });
   const stage=document.querySelector('.hubStage');
   let drag=null;
   let suppressClickUntil=0;

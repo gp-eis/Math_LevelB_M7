@@ -1056,6 +1056,8 @@
 .bgame .backBtn{left:max(6.5cqh,54px);}
 
 
+/* ==== TRAIN 2a wrap 1: 16:9 layout tuning applies to landscape / wide screens only ==== */
+@media (orientation:landscape), (min-width:901px){
 /* ================= LANDSCAPE-BATCH : 16:9-first stage, shared by every activity ================= */
   .bgame{
     /* Aspect clamped to a RANGE, not pinned at 16:9: a phone held sideways is ~20:9, WIDER
@@ -1254,6 +1256,8 @@
   /* the 7-card ky pool fits one row by construction (max 1324px in a 1620px table) */
   #ky_app .kyPool{flex-wrap:nowrap;max-width:none;width:max-content;}
 /* ==== end PROPORTION-PASS B7 ==== */
+}
+/* ==== end TRAIN 2a wrap 1 ==== */
   /* ==== THUMBNAIL / MARGIN FIX (9/15, William: "i menat the thumbnail" + "there are too
      much margin so increase the size of the thumbnaiil" + "do the same with other videos
      there"): the concept picker's tile grows height-bound to dominate the stage (bare
@@ -1382,6 +1386,8 @@
   .vidSizeBtn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(224,66,79,.3);}
   .conceptShell .vidSizeBtn{right:0;top:0;}
 
+/* ==== TRAIN 2a wrap 2: 16:9 layout tuning applies to landscape / wide screens only ==== */
+@media (orientation:landscape), (min-width:901px){
 /* ==== LAYOUT CLIP FIX 2026-09-16 (William QA): take stack fits its board at every counter count; fly bees sit inside the scene ==== */
   #tk_app .tkBox{padding-top:2cqh;padding-bottom:2cqh;gap:1.6cqh;}
   #tk_app .tkWrap{gap:1.2cqh;}
@@ -1393,7 +1399,8 @@
   #tk_app .tkEq .ansBox{width:9.5cqh;height:9.5cqh;font-size:7cqh;}
   .faScene{height:32cqh;flex-shrink:0;}
   #fa_app .faNum{width:16cqh;height:16cqh;}
-
+}
+/* ==== end TRAIN 2a wrap 2 ==== */
   /* ==== KAKAO FIX 2026-09-20 (GP손부장님 via William): (a) the concept caption WRAPS instead of being
      ellipsised - measured 747px of text in a 380px box at 412x915 - and is shown, smaller, on short screens
      instead of hidden; (c) the week picker fits phone LANDSCAPE, where the cards used to run 114px below the
@@ -1445,6 +1452,8 @@
 /* ==== DEAD MENU TILE (2026-09-22): a menu with two options showed a third, dead "Activity 3" tile - the hidden attribute was
    defeated by .actPickBtn{display:flex}. A7 has had this rule since the third tile was introduced; B7/C7 never got it. ==== */
 .actPickBtn[hidden]{display:none!important;}
+/* ==== TRAIN 2a wrap 3: 16:9 layout tuning applies to landscape / wide screens only ==== */
+@media (orientation:landscape), (min-width:901px){
 /* ==== FLY STACK FIT (2026-09-22): the 9/16 scene + number sizes overfilled the board - the number row was crushed, its buttons
    overlapped the equation box and were cut by the panel at the pulse peak. The scene keeps 32cqh; the rest is trimmed to fit. ==== */
 #fa_app .board{gap:1.2cqh;}
@@ -1452,6 +1461,62 @@
 #fa_app .faEq .ansBox{width:9cqh;height:9cqh;font-size:6.6cqh;}
 #fa_app .faNum{width:13.5cqh;height:13.5cqh;font-size:7.8cqh;}
 #fa_app .faNums{min-height:14.3cqh;flex-shrink:0;}
+}
+/* ==== end TRAIN 2a wrap 3 ==== */
+/* ==== TRAIN 2a: phones may be held UPRIGHT again - the rotate gate is retired on this level ==== */
+#ls_rotate{display:none!important;}
+/* ==== TRAIN 2a PORTRAIT RULESET B7 (measured upright at 390x844 / 414x896 / 768x1024) ==== */
+@media (orientation:portrait) and (max-width:900px){
+/* (1) GAME HEADER. The touch floor makes home/back 44 px; the portrait-first title was drawn for 27 px buttons and ran under
+   them. (Lifting the buttons above the stage was tried and measured: the panel clips them.) On a narrow upright phone the
+   title sits in the space to the RIGHT of the two buttons, at a size that fits there. */
+@media (max-width:600px){
+  .bgame .title{left:104px;right:6px;font-size:5.8cqw;}
+}
+/* (2) VIDEO + CONCEPT PAGES: the title clears the 44 px corner buttons; the six chapter buttons wrap 3 x 2 under Play All so
+   every label is whole. */
+.vidTitle,.conceptTitle{padding:0 92px 0 60px;min-height:48px;display:flex;align-items:center;justify-content:center;font-size:16px;line-height:1.15;}
+#v_chapters{flex-wrap:wrap;gap:6px;}
+#v_chapters .vChapAll{flex:1 1 100%;min-height:44px;}
+#v_chapters .vChap{flex:1 1 30%;max-width:none;min-height:48px;}
+#v_chapters .vChapLb{font-size:12px;}
+/* (3) PLAY KIT (ky / kt / pb). The kit's base rules were authored inside the 16:9 proportion pass, so upright it had no layout at
+   all. Upright it is WIDTH that is scarce: rows size from cqw - a model / build row of up to 8 stays ONE row, the pool wraps. */
+.kyTable{position:relative;width:98%;margin:0 auto;padding:0.4cqw 0 0.6cqw;}
+.kyRow{display:flex;gap:1.2cqw;justify-content:center;align-items:center;min-height:0;flex-wrap:nowrap;}
+.kyCard,.kySlot{flex:none;display:flex;align-items:center;justify-content:center;border-radius:2cqw;}
+.kyCard{background:#fff;border:0.7cqw solid var(--th);box-shadow:0 0.6cqw 1.2cqw rgba(30,10,0,.3);}
+.kyCard.shake{animation:shake .4s;}
+.kyPool .kyCard{cursor:pointer;}
+.kyPool .kyCard.used{opacity:.22;pointer-events:none;}
+#ky_app .kyRow:not(.kyPool) .kyCard,#ky_app .kySlot,#ky_app.kyBig .kyRow:not(.kyPool) .kyCard,#ky_app.kyBig .kySlot{width:9.8cqw;height:9.8cqw;}
+#ky_app .kyRow:not(.kyPool) .kyCard img{max-width:8cqw;max-height:8cqw;}
+#ky_app .kySlot .kyCard{width:84%;height:84%;}
+#ky_app .kySlot .kyCard img{max-width:7cqw;max-height:7cqw;}
+#ky_app .kyPool,#ky_app.kyBig .kyPool,#pb_app .kyPool,#pb_app.pbBig .kyPool{flex-wrap:wrap;width:auto;max-width:70cqw;gap:1.5cqw;padding:0;margin:0 auto;}
+#ky_app .kyPool .kyCard{width:12.4cqw;height:12.4cqw;}
+#ky_app .kyPool .kyCard img{max-width:9.4cqw;max-height:9.4cqw;object-fit:contain;}
+#ky_app .kyLbl,#kt_app .kyLbl,#pb_app .kyLbl{font-size:3.4cqw;margin:0.8cqw 0 0.5cqw;text-align:center;}
+.kyKeyImg{height:7.4cqw;}
+#kt_app .ktField{max-width:96%;gap:1.6cqw;}
+#kt_app .ktObj{width:15cqw;height:15cqw;border-radius:2.4cqw;}
+#kt_app .ktObj img{max-width:11.5cqw;max-height:11.5cqw;}
+#kt_app .ktX{font-size:12cqw;}
+#kt_app .ktEq{font-size:8.5cqw;gap:2cqw;margin:1.4cqw 0 1cqw;}
+#kt_app .ktAns{min-width:11cqw;}
+#kt_app .kyPool{flex-wrap:wrap;width:auto;max-width:96cqw;gap:2cqw;}
+#kt_app .kyPool .kyCard{width:14cqw;height:14cqw;}
+#kt_app .kyNum{font-size:9cqw;}
+#pb_app .pbStage,#pb_app.pbBig .pbStage{width:56cqw;max-width:56cqw;height:auto;max-height:26cqw;}
+#pb_app .pbStageWrap{gap:2cqw;}
+#pb_app .pbCheck{position:static;transform:none;flex:none;width:10cqw;height:10cqw;}
+#pb_app .pbTk{width:9cqw;height:7cqw;}
+#pb_app .pbTracker{margin:0 0 0.6cqw;gap:1.2cqw;}
+#pb_app .kyPool .kyCard.pbPiece,#pb_app.pbBig .kyPool .kyCard.pbPiece{width:12.4cqw;height:12cqw;padding:0.8cqw;}
+#pb_app #pb_key{font-size:4cqw;}
+#pb_app .pbSayShape{height:11cqw;}
+}
+/* ==== end TRAIN 2a PORTRAIT RULESET ==== */
 </style>
 </head>
 <body>
